@@ -90,7 +90,7 @@ lvim.keys.normal_mode["<leader>sy"] = ":lua require(\"telescope\").extensions.li
 lvim.keys.normal_mode["<leader>ss"] = ":Telescope grep_string<cr>"
 
 lvim.keys.normal_mode["<leader>dd"] = ":TranslateW<cr>"
-lvim.keys.normal_mode["<F7>"] = ":AsyncRun cmake --build build"
+lvim.keys.normal_mode["<F7>"] = ":AsyncRun cmake --build build<cr>"
 -- lvim.keys.normal_mode["²"] = ":CloseAll<cr>"
 
 -- unmap a default keymapping
