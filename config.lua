@@ -447,7 +447,7 @@ lvim.plugins = {
 	--         vim.cmd("xmap gS       <Plug>VgSurround")
 	--       end
 	-- },
-	{ "oberblastmeister/neuron.nvim" },
+	-- { "oberblastmeister/neuron.nvim" },
 	-- fred plugin perso
 	-- {
 	--     "blackCauldron7/surround.nvim",
@@ -536,7 +536,6 @@ lvim.plugins = {
     ]])
 		end,
 	},
-	{ "nvim-neorg/neorg-telescope" },
 	{
 		"nvim-neorg/neorg",
 		config = function()
@@ -567,9 +566,9 @@ lvim.plugins = {
 				},
 			})
 		end,
-		requires = "nvim-lua/plenary.nvim",
-		-- requires = "nvim-neorg/neorg-telescope",
+		requires = {"nvim-lua/plenary.nvim","nvim-neorg/neorg-telescope"},
 	},
+	{ "nvim-neorg/neorg-telescope" },
 	{
 		"mzlogin/vim-markdown-toc",
 	},
@@ -762,3 +761,37 @@ local opts = {
 }
 
 require("lvim.lsp.manager").setup("clangd", opts)
+
+
+local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+
+-- These two are optional and provide syntax highlighting
+-- for Neorg tables and the @document.meta tag
+parser_configs.norg_meta = {
+    install_info = {
+        url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
+        files = { "src/parser.c" },
+        branch = "main"
+    },
+}
+
+parser_configs.norg_table = {
+    install_info = {
+        url = "https://github.com/nvim-neorg/tree-sitter-norg-table",
+        files = { "src/parser.c" },
+        branch = "main"
+    },
+}
+require('nvim-treesitter.configs').setup {
+    ensure_installed = { "norg", "norg_meta", "norg_table"},
+    highlight = { -- Be sure to enable highlights if you haven't!
+        enable = true,
+    }
+}
+-- require'neuron'.setup {
+--     virtual_titles = true,
+--     mappings = true,
+--     run = nil, -- function to run when in neuron dir
+--     neuron_dir = "~/neuron", -- the directory of all of your notes, expanded by default (currently supports only one directory for notes, find a way to detect neuron.dhall to use any directory)
+--     leader = "gz", -- the leader key to for all mappings, remember with 'go zettel'
+-- }
