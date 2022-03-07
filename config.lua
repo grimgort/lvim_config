@@ -1,5 +1,6 @@
 
 vim.api.nvim_command "let g:asyncrun_open = 8"
+lvim.line_wrap_cursor_movement = false
 --[[
 lvim is the global options object
 
@@ -9,22 +10,22 @@ a global executable or a path to
 an executable
 ]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
-lvim.builtin.which_key.mappings["z"] = {
-	name = "+Fred",
-	r = { "<cmd>DevDocsUnderCursor<cr>", "DevDocsUnderCursor" },
-	n = { ":edit ~/NEORG/index.norg<cr>" },
-	x = { ":only<cr>" },
-	a = { ":tabnew<cr>" },
-	q = { "<cmd>copen<CR>" },
-	h = { "[[:%s/<c-r><c-w>/<c-r><c-w>/g]]" },
-	c = { ":Telescope grep_string<cr>" },
-}
+-- lvim.builtin.which_key.mappings["z"] = {
+-- 	name = "+Fred",
+-- 	-- r = { "<cmd>DevDocsUnderCursor<cr>", "DevDocsUnderCursor" },
+-- 	-- n = { ":edit ~/NEORG/index.norg<cr>" },
+-- 	-- x = { ":only<cr>" },
+-- 	-- a = { ":tabnew<cr>" },
+-- 	-- q = { "<cmd>copen<CR>" },
+-- 	-- h = { "[[:%s/<c-r><c-w>/<c-r><c-w>/g]]" },
+-- 	-- c = { ":Telescope grep_string<cr>" },
+-- }
 
-lvim.builtin.which_key.mappings["m"] = {
-	name = "+markdown",
-	m = { "<cmd>Glow<cr>" },
-	a = { "<cmd>MarkdownPreview<cr>" },
-}
+-- lvim.builtin.which_key.mappings["m"] = {
+-- 	name = "+markdown",
+-- 	m = { "<cmd>Glow<cr>" },
+-- 	a = { "<cmd>MarkdownPreview<cr>" },
+-- }
 -- lvim.builtin.which_key.mappings["d"] = {
 --   name = "+markdown",
 -- d = {":TranslateW<cr>"},
@@ -37,38 +38,39 @@ lvim.builtin.which_key.mappings["m"] = {
 -- v = {":translatew<cr>"},
 -- v = {":translatew<cr>"},
 --   }
-local opt = {}
+local opt = { noremap = true, silent = true }
 
--- vim.api.nvim_set_keymap("n", "<leader>wd", ":DevDocsUnderCursor<cr>", {})
--- vim.api.nvim_set_keymap("n", "<leader>wn", ":edit ~/NEORG/index.norg<cr>", {})
--- vim.api.nvim_set_keymap("n", " wx", ":only<cr>", opt)
--- vim.api.nvim_set_keymap("n", "<leader>wa", ":tabnew<cr>", opt)
-vim.api.nvim_set_keymap("n", "²", ":CloseAll<cr>", opt)
+lvim.keys.normal_mode["<leader>zd"] = ":DevDocsUnderCursor<cr>"
+-- lvim.keys.normal_mode[ "<leader>zd"] = ":DevDocsUnderCursor<cr>"
+-- lvim.keys.normal_mode[ "<leader>zn"] = ":edit ~/NEORG/index.norg<cr>"
+lvim.keys.normal_mode[ "<leader>zx"] = ":only<cr>"
+lvim.keys.normal_mode[ "<leader>za"] = ":tabnew<cr>"
+lvim.keys.normal_mode[ "²"] = ":CloseAll<cr>"
 vim.api.nvim_set_keymap("i", "²", "<C-o>:CloseAll<cr>", opt)
 vim.api.nvim_set_keymap("t", "²", "<C-\\><C-n>CloseAll<cr>", opt)
--- vim.api.nvim_set_keymap("n", "<leader>q", "<cmd>copen<CR>", opt)
--- vim.api.nvim_set_keymap("n", "<F7>", "<cmd>CMake build_all<CR>", opt)
+lvim.keys.normal_mode[ "<leader>zq"] = "<cmd>copen<CR>"
+-- lvim.keys.normal_mode[ "<F7>"] = "<cmd>CMake build_all<CR>"
 
-vim.api.nvim_set_keymap("v", "*", [[y/\V<C-r>=escape(@",'/\')<CR><CR>]], {})
-vim.api.nvim_set_keymap("n", "<leader>wh", [[:%s/<c-r><c-w>/<c-r><c-w>/g]], {})
--- vim.api.nvim_set_keymap("n", "<leader>wc", ":Telescope grep_string<cr>", {})
--- vim.api.nvim_set_keymap("n", "<leader>mm", "<cmd>Glow<cr>", {})
--- vim.api.nvim_set_keymap("n", "<leader>ma", "<cmd>MarkdownPreview<cr>", {})
-vim.api.nvim_set_keymap("n", "<leader>dd", ":TranslateW<cr>", opt)
-vim.api.nvim_set_keymap("v", "<leader>dd", ":translatew<cr>", opt)
-vim.api.nvim_set_keymap("n", "<leader>dr", ":TranslateR<cr>", opt)
-vim.api.nvim_set_keymap("v", "<leader>dr", ":TranslateR<cr>", opt)
-vim.api.nvim_set_keymap("n", "<leader>da", ":TranslateW!<cr>", opt)
-vim.api.nvim_set_keymap("v", "<leader>da", ":TranslateW!<cr>", opt)
-vim.api.nvim_set_keymap("n", "<leader>dz", ":TranslateR!<cr>", opt)
-vim.api.nvim_set_keymap("v", "<leader>dz", ":TranslateR!<cr>", opt)
--- vim.api.nvim_set_keymap("n", "<leader>wS", ":lua require('spectre').open()<CR>", opt)
--- -- search current word
--- vim.api.nvim_set_keymap("n", "<leader>wsw", ":lua require('spectre').open_visual({select_word=true})<CR>", opt)
--- vim.api.nvim_set_keymap("v", "<leader>wss", ":lua require('spectre').open_visual()<CR>", opt)
--- -- search in current file
--- vim.api.nvim_set_keymap("n", "<leader>wsp", ":lua require('spectre').open_file_search()<cr>", opt)
--- vim.api.nvim_set_keymap("n", "<leader>nb", ":AsyncRun cpplint % <cr>", opt)
+lvim.keys.visual_mode["*"]=[[y/\V<C-r>=escape(@",'/\')<CR><CR>]]
+lvim.keys.normal_mode["<leader>zh"]= [[:%s/<c-r><c-w>/<c-r><c-w>/g]]
+lvim.keys.normal_mode[ "<leader>zc"] = ":Telescope grep_string<cr>"
+lvim.keys.normal_mode[ "<leader>zm"] = "<cmd>Glow<cr>"
+lvim.keys.normal_mode[ "<leader>zp"] = "<cmd>MarkdownPreview<cr>"
+lvim.keys.normal_mode[ "<leader>dd"] = ":TranslateW<cr>"
+lvim.keys.visual_mode[ "<leader>dd"] = ":translatew<cr>"
+lvim.keys.normal_mode[ "<leader>dr"] = ":TranslateR<cr>"
+lvim.keys.visual_mode[ "<leader>dr"] = ":TranslateR<cr>"
+lvim.keys.normal_mode[ "<leader>da"] = ":TranslateW!<cr>"
+lvim.keys.visual_mode[ "<leader>da"] = ":TranslateW!<cr>"
+lvim.keys.normal_mode[ "<leader>dz"] = ":TranslateR!<cr>"
+lvim.keys.visual_mode[ "<leader>dz"] = ":TranslateR!<cr>"
+lvim.keys.normal_mode[ "<leader>zS"] = ":lua require('spectre').open()<CR>"
+-- search current word
+lvim.keys.normal_mode[ "<leader>zsw"] = ":lua require('spectre').open_visual({select_word=true})<CR>"
+lvim.keys.visual_mode[ "<leader>zss"] = ":lua require('spectre').open_visual()<CR>"
+-- search in current file
+lvim.keys.normal_mode[ "<leader>zsp"] = ":lua require('spectre').open_file_search()<cr>"
+lvim.keys.normal_mode[ "<leader>znb"] = ":AsyncRun cpplint % <cr>"
 
 -- general
 lvim.log.level = "warn"
@@ -82,6 +84,10 @@ vim.opt.colorcolumn = "99999"
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 20
+vim.opt.swapfile = true
+
+vim.api.nvim_command "set nospell"
+
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
@@ -89,7 +95,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<leader>sy"] = ":lua require(\"telescope\").extensions.live_grep_raw.live_grep_raw()<cr>"
 lvim.keys.normal_mode["<leader>ss"] = ":Telescope grep_string<cr>"
 
-lvim.keys.normal_mode["<leader>dd"] = ":TranslateW<cr>"
+-- lvim.keys.normal_mode["<leader>dd"] = ":TranslateW<cr>"
 lvim.keys.normal_mode["<F7>"] = ":AsyncRun cmake --build build<cr>"
 -- lvim.keys.normal_mode["²"] = ":CloseAll<cr>"
 
@@ -384,14 +390,14 @@ lvim.plugins = {
 			vim.g.indent_blankline_show_first_indent_level = false
 		end,
 	},
-	-- {
-	--   "iamcco/markdown-preview.nvim",
-	--   run = "cd app && npm install",
-	--   ft = "markdown",
-	--   config = function()
-	--     vim.g.mkdp_auto_start = 1
-	--   end,
-	-- },
+	{
+	  "iamcco/markdown-preview.nvim",
+	  run = "cd app && npm install",
+	  ft = "markdown",
+	  config = function()
+	    vim.g.mkdp_auto_start = 1
+	  end,
+	},
 	{
 		"ethanholz/nvim-lastplace",
 		event = "BufRead",
@@ -555,6 +561,21 @@ lvim.plugins = {
 		"mzlogin/vim-markdown-toc",
 	},
 	{ "nvim-telescope/telescope-live-grep-raw.nvim" },
+  {"kazhala/close-buffers.nvim"},
+ {
+  'chipsenkbeil/distant.nvim',
+  config = function()
+    require('distant').setup {
+      -- Applies Chip's personal settings to every machine you connect to
+      --
+      -- 1. Ensures that distant servers terminate with no connections
+      -- 2. Provides navigation bindings for remote directories
+      -- 3. Provides keybinding to jump into a remote file's parent directory
+      ['*'] = require('distant.settings').chip_default()
+    }
+  end
+},
+{'ckipp01/nvim-jenkinsfile-linter', requires = { "nvim-lua/plenary.nvim" } }
 }
 
 vim.cmd([[
@@ -580,7 +601,7 @@ vim.api.nvim_exec(
  let g:term_buf = 0
   let g:term_win = 0
 let g:history_win_id = []
-function History_cursor_window()
+function! History_cursor_window()
   echomsg("history_cursor_window")
   "echomsg(g:saved_winnr_previous)
   let saved_winnr = win_getid()
@@ -615,7 +636,7 @@ function History_cursor_window()
   endfor
 endfunction
 
-function Close_all()
+function! Close_all()
   let nodelete = 0
   let list_file_to_delete= []
   let list_file_to_keep = ['.vimrc','vimrcWindows' ]
@@ -640,6 +661,7 @@ function Close_all()
     execute "bw"
   endif
 endfunction
+
 function! CloseWindo()
   "echomsg("closewindo")
   "let saved_winnr = winnr()
@@ -654,7 +676,10 @@ function! CloseWindo()
   pclose
   helpclose
   ccl
+  "clear last pattern
+  let @/ = ""
   silent! :FloatermHide!<cr>
+  silent! :nohlsearch<cr>
   "silent! :CocCommand explorer --quit 
   
   "cache le terminal
@@ -694,33 +719,33 @@ silent! command! CloseAll call CloseWindo()
 -- check the full default list `:lua print(vim.inspect(lvim.lsp.override))`
 -- vim.list_extend(lvim.lsp.override, { "clangd" })
 -- -- some settings can only passed as commandline flags `clangd --help`
--- local clangd_flags = {
---   "--all-scopes-completion",
---   "--suggest-missing-includes",
---   "--background-index",
---   "--pch-storage=disk",
---   "--cross-file-rename",
---   "--log=info",
---   "--completion-style=detailed",
---   "--enable-config", -- clangd 11+ supports reading from .clangd configuration file
---   "--clang-tidy",
---   -- "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
---   -- "--fallback-style=Google",
---   -- "--header-insertion=never",
---   -- "--query-driver=<list-of-white-listed-complers>"
--- }
+local clangd_flags = {
+  "--all-scopes-completion",
+  "--suggest-missing-includes",
+  "--background-index",
+  "--pch-storage=disk",
+  "--cross-file-rename",
+  "--log=info",
+  "--completion-style=detailed",
+  "--enable-config", -- clangd 11+ supports reading from .clangd configuration file
+  "--clang-tidy",
+  -- "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
+  -- "--fallback-style=Google",
+  -- "--header-insertion=never",
+  -- "--query-driver=<list-of-white-listed-complers>"
+}
 
--- local clangd_bin = "clangd"
+local clangd_bin = "clangd"
 
--- local custom_on_attach = function(client, bufnr)
---   require("lvim.lsp").common_on_attach(client, bufnr)
---   local opts = { noremap = true, silent = true }
---   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
--- end
+local custom_on_attach = function(client, bufnr)
+  require("lvim.lsp").common_on_attach(client, bufnr)
+  local opts = { noremap = true, silent = true }
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
+end
 
--- local opts = {
---   cmd = { clangd_bin, unpack(clangd_flags) },
---   on_attach = custom_on_attach,
--- }
+local opts = {
+  cmd = { clangd_bin, unpack(clangd_flags) },
+  on_attach = custom_on_attach,
+}
 
--- require("lvim.lsp.manager").setup("clangd", opts)
+require("lvim.lsp.manager").setup("clangd", opts)
