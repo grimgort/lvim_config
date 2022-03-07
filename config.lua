@@ -1,4 +1,14 @@
 
+
+require'cmp'.setup.cmdline('/', {
+  sources = {
+    { name = 'buffer' }
+  }
+})require'cmp'.setup.cmdline(':', {
+  sources = {
+    { name = 'cmdline' }
+  }
+})
 vim.api.nvim_command "let g:asyncrun_open = 8"
 lvim.line_wrap_cursor_movement = false
 --[[
@@ -489,6 +499,9 @@ lvim.plugins = {
 			vim.cmd([[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]])
 		end,
 	},
+  {
+     "hrsh7th/cmp-cmdline",
+  },
 	{
 		"hrsh7th/cmp-calc",
 		after = "cmp-nvim-lsp",
