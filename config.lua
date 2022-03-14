@@ -50,14 +50,20 @@ an executable
 --   }
 local opt = { noremap = true, silent = true }
 
+lvim.keys.normal_mode["<leader>gvf"] = ":DiffviewFileHistory<cr>"
+lvim.keys.normal_mode["<leader>gvo"] = ":DiffviewOpen<cr>"
 lvim.keys.normal_mode["<leader>zd"] = ":DevDocsUnderCursor<cr>"
 -- lvim.keys.normal_mode[ "<leader>zd"] = ":DevDocsUnderCursor<cr>"
 -- lvim.keys.normal_mode[ "<leader>zn"] = ":edit ~/NEORG/index.norg<cr>"
+
 lvim.keys.normal_mode[ "<leader>zx"] = ":only<cr>"
 lvim.keys.normal_mode[ "<leader>za"] = ":tabnew<cr>"
 lvim.keys.normal_mode[ "²"] = ":CloseAll<cr>"
 vim.api.nvim_set_keymap("i", "²", "<C-o>:CloseAll<cr>", opt)
 vim.api.nvim_set_keymap("t", "²", "<C-\\><C-n>CloseAll<cr>", opt)
+vim.api.nvim_set_keymap("t", "<C-a>", "<C-\\><C-n>", opt)
+vim.api.nvim_set_keymap( "t", "<C-j>", [[<DOWN>]], opt)
+vim.api.nvim_set_keymap( "t", "<C-k>", [[<UP>]], opt)
 lvim.keys.normal_mode[ "<leader>zq"] = "<cmd>copen<CR>"
 -- lvim.keys.normal_mode[ "<F7>"] = "<cmd>CMake build_all<CR>"
 
@@ -67,7 +73,7 @@ lvim.keys.normal_mode[ "<leader>zc"] = ":Telescope grep_string<cr>"
 lvim.keys.normal_mode[ "<leader>zm"] = "<cmd>Glow<cr>"
 lvim.keys.normal_mode[ "<leader>zp"] = "<cmd>MarkdownPreview<cr>"
 lvim.keys.normal_mode[ "<leader>dd"] = ":TranslateW<cr>"
-lvim.keys.visual_mode[ "<leader>dd"] = ":translatew<cr>"
+lvim.keys.visual_mode[ "<leader>dd"] = ":translateW<cr>"
 lvim.keys.normal_mode[ "<leader>dr"] = ":TranslateR<cr>"
 lvim.keys.visual_mode[ "<leader>dr"] = ":TranslateR<cr>"
 lvim.keys.normal_mode[ "<leader>da"] = ":TranslateW!<cr>"
@@ -82,13 +88,14 @@ lvim.keys.visual_mode[ "<leader>zss"] = ":lua require('spectre').open_visual()<C
 lvim.keys.normal_mode[ "<leader>zsp"] = ":lua require('spectre').open_file_search()<cr>"
 lvim.keys.normal_mode[ "<leader>znb"] = ":AsyncRun cpplint % <cr>"
 
+
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = false
 lvim.colorscheme = "onedarker"
 vim.opt.ff = "unix"
 vim.opt.wrap = true
-vim.opt.guifont = "monospace:h17"
+-- vim.opt.guifont = "monospace:h17"
 vim.opt.fileencoding = "utf-8" -- the encoding written to a file
 vim.opt.colorcolumn = "99999"
 vim.opt.foldmethod = "expr"
@@ -107,6 +114,7 @@ lvim.keys.normal_mode["<leader>ss"] = ":Telescope grep_string<cr>"
 
 -- lvim.keys.normal_mode["<leader>dd"] = ":TranslateW<cr>"
 lvim.keys.normal_mode["<F7>"] = ":AsyncRun cmake --build build<cr>"
+lvim.keys.normal_mode["<F8>"] = ":AsyncRun cmake --build build --config Release<cr>"
 -- lvim.keys.normal_mode["²"] = ":CloseAll<cr>"
 
 -- unmap a default keymapping
@@ -144,14 +152,60 @@ lvim.builtin.which_key.mappings["t"] = {
   w = {"<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnostics"},
 }
 
+-- lvim.builtin.terminal.execs ={
+--       { "lazygit", "<leader>gg", "LazyGit o", "float" },
+--       { "lazygit", "<c-\\><c-g>", "LazyGit", "float" },
+-- }
+-- local Terminal  = require('toggleterm.terminal').Terminal
+-- local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })
+
+-- local function _lazygit_toggle()
+--   lazygit:toggle()
+-- end
+
+lvim.builtin.which_key.mappings["g"]={
+        name = "Git",
+        j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
+        k = { "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" },
+        l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
+        p = { "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", "Preview Hunk" },
+        r = { "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", "Reset Hunk" },
+        R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
+        s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" },
+        u = {
+          "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
+          "Undo Stage Hunk",
+        },
+        o = { "<cmd>Telescope git_status<cr>", "Open changed file" },
+        b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
+        c = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
+        C = {
+          "<cmd>Telescope git_bcommits<cr>",
+          "Checkout commit(for current file)",
+        },
+        d = {
+          "<cmd>Gitsigns diffthis HEAD<cr>",
+          "Git Diff",
+        },
+        g={"<cmd>LazyGit<cr>","LazyGit"},
+        M ={":!git branch --merged | Select-String -Pattern '^(?!.*(master|.*-stable)).*$' | ForEach-Object { git branch -d $_.ToString().Trim() } <cr>", "clean merged branch"}
+}
+-- lvim.keys.normal_mode["g"] = "<cmd>LazyGit"
+-- vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.dashboard.active = true
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.terminal.shell = "pwsh"
+lvim.builtin.terminal.hide_numbers=false
+-- lvim.builtin.terminal.insert_mappings=false
+lvim.builtin.terminal.start_in_insert=true
+lvim.builtin.terminal.size=40
+lvim.builtin.telescope.defaults.layout_config.width = 0.99
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
+vim.cmd([[autocmd User TelescopePreviewerLoaded setlocal wrap]])
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -196,6 +250,7 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require("lvim.lsp.null-ls.formatters")
+formatters.setup({commands = "cmake_format", filetype = {"cmake"}})
 -- formatters.setup({
 -- 	{ command = "black", filetypes = { "python" } },
 -- 	{ command = "stylua", filetypes = { "lua" } },
@@ -587,7 +642,8 @@ lvim.plugins = {
     }
   end
 },
-{'ckipp01/nvim-jenkinsfile-linter', requires = { "nvim-lua/plenary.nvim" } }
+{'ckipp01/nvim-jenkinsfile-linter', requires = { "nvim-lua/plenary.nvim" } },
+{'kdheepak/lazygit.nvim'}
 }
 
 vim.cmd([[
@@ -692,6 +748,7 @@ function! CloseWindo()
   let @/ = ""
   silent! :FloatermHide!<cr>
   silent! :nohlsearch<cr>
+  silent! :DiffviewClose<cr>
   "silent! :CocCommand explorer --quit 
   
   "cache le terminal
