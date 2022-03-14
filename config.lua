@@ -167,7 +167,8 @@ lvim.builtin.which_key.mappings["g"]={
         name = "Git",
         j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
         k = { "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" },
-        l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
+        -- l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
+        l = { "<cmd>GitMessenger<cr>", "Blame" },
         p = { "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", "Preview Hunk" },
         r = { "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", "Reset Hunk" },
         R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
@@ -349,14 +350,15 @@ lvim.plugins = {
 		"sindrets/diffview.nvim",
 		event = "BufRead",
 	},
-	{
-		"f-person/git-blame.nvim",
-		event = "BufRead",
-		config = function()
-			vim.cmd("highlight default link gitblame SpecialComment")
-			vim.g.gitblame_enabled = 0
-		end,
-	},
+  -- replacde by :Gitsigns toggle_current_line_blame
+	-- {
+	-- 	"f-person/git-blame.nvim",
+	-- 	event = "BufRead",
+	-- 	config = function()
+	-- 		vim.cmd("highlight default link gitblame SpecialComment")
+	-- 		vim.g.gitblame_enabled = 0
+	-- 	end,
+	-- },
 	{
 		"tpope/vim-fugitive",
 		-- cmd = {
