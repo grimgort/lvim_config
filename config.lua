@@ -11,6 +11,32 @@ require'cmp'.setup.cmdline('/', {
 })
 vim.api.nvim_command "let g:asyncrun_open = 8"
 lvim.line_wrap_cursor_movement = false
+lvim.builtin.cmp.sources = {
+      { name = "nvim_lsp" },
+      { name = "path" },
+      { name = "luasnip" },
+      { name = "cmp_tabnine" },
+      { name = "nvim_lua" },
+      { name = "buffer" },
+      { name = "calc" },
+      { name = "emoji" },
+      { name = "treesitter" },
+      { name = "crates" },
+{name="spell"},
+{name="dictionary"}
+    }
+lvim.builtin.cmp.source_names ={
+        nvim_lsp = "(LSP)",
+        emoji = "(Emoji)",
+        path = "(Path)",
+        calc = "(Calc)",
+        cmp_tabnine = "(Tabnine)",
+        vsnip = "(Snippet)",
+        luasnip = "(Snippet)",
+        buffer = "(Buffer)",
+  spell="(spell)"
+   }
+vim.opt.spelllang = { 'en_us' }
 --[[
 lvim is the global options object
 
@@ -73,7 +99,7 @@ lvim.keys.normal_mode[ "<leader>zc"] = ":Telescope grep_string<cr>"
 lvim.keys.normal_mode[ "<leader>zm"] = "<cmd>Glow<cr>"
 lvim.keys.normal_mode[ "<leader>zp"] = "<cmd>MarkdownPreview<cr>"
 lvim.keys.normal_mode[ "<leader>dd"] = ":TranslateW<cr>"
-lvim.keys.visual_mode[ "<leader>dd"] = ":translateW<cr>"
+lvim.keys.visual_mode[ "<leader>dd"] = ":TranslateW<cr>"
 lvim.keys.normal_mode[ "<leader>dr"] = ":TranslateR<cr>"
 lvim.keys.visual_mode[ "<leader>dr"] = ":TranslateR<cr>"
 lvim.keys.normal_mode[ "<leader>da"] = ":TranslateW!<cr>"
@@ -87,6 +113,8 @@ lvim.keys.visual_mode[ "<leader>zss"] = ":lua require('spectre').open_visual()<C
 -- search in current file
 lvim.keys.normal_mode[ "<leader>zsp"] = ":lua require('spectre').open_file_search()<cr>"
 lvim.keys.normal_mode[ "<leader>znb"] = ":AsyncRun cpplint % <cr>"
+
+lvim.keys.normal_mode[ "<leader>zz"] = ":TZFocus<cr>"
 
 
 -- general
@@ -113,8 +141,10 @@ lvim.keys.normal_mode["<leader>sy"] = ":lua require(\"telescope\").extensions.li
 lvim.keys.normal_mode["<leader>ss"] = ":Telescope grep_string<cr>"
 
 -- lvim.keys.normal_mode["<leader>dd"] = ":TranslateW<cr>"
-lvim.keys.normal_mode["<F7>"] = ":AsyncRun cmake --build build<cr>"
-lvim.keys.normal_mode["<F8>"] = ":AsyncRun cmake --build build --config Release<cr>"
+-- lvim.keys.normal_mode["<F7>"] = ":AsyncRun cmake --build build<cr>"
+-- lvim.keys.normal_mode["<F6>"] = ":AsyncRun cmake --build build --config Release<cr>"
+lvim.keys.normal_mode["<F7>"] = ":CMake build_all -j4<cr>"
+lvim.keys.normal_mode["<F6>"] = ":CMake build_all --config Release -j4<cr>"
 -- lvim.keys.normal_mode["²"] = ":CloseAll<cr>"
 
 -- unmap a default keymapping
@@ -206,6 +236,7 @@ lvim.builtin.terminal.size=40
 lvim.builtin.telescope.defaults.layout_config.width = 0.99
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
+lvim.builtin.dap.active=true
 vim.cmd([[autocmd User TelescopePreviewerLoaded setlocal wrap]])
 
 -- if you don't want all the parsers change this to a table of the ones you want
@@ -563,6 +594,12 @@ lvim.plugins = {
 		"hrsh7th/cmp-calc",
 		after = "cmp-nvim-lsp",
 	},
+  {
+    "uga-rosa/cmp-dictionary"
+  },
+  {
+    "f3fora/cmp-spell"
+  },
 	{
 		"nacro90/numb.nvim",
 		config = function()
@@ -645,7 +682,29 @@ lvim.plugins = {
   end
 },
 {'ckipp01/nvim-jenkinsfile-linter', requires = { "nvim-lua/plenary.nvim" } },
-{'kdheepak/lazygit.nvim'}
+{'kdheepak/lazygit.nvim'},
+{'rafi/awesome-vim-colorschemes'},
+{'Shatur/neovim-cmake',
+config = function()
+local Path = require('plenary.path')
+require('cmake').setup{
+  cmake_executable = 'cmake', -- CMake executable to run.
+  parameters_file = 'neovim.json', -- JSON file to store information about selected target, run arguments and build type.
+  -- build_dir = tostring(Path:new('{cwd}', 'build', '{os}-{build_type}')), -- Build directory. The expressions `{cwd}`, `{os}` and `{build_type}` will be expanded with the corresponding text values.
+  build_dir = tostring(Path:new('{cwd}', 'build')), -- Build directory. The expressions `{cwd}`, `{os}` and `{build_type}` will be expanded with the corresponding text values.
+  -- samples_path = tostring(script_path:parent():parent():parent() / 'samples'), -- Folder with samples. `samples` folder from the plugin directory is used by default.
+  default_projects_path = tostring(Path:new(vim.loop.os_homedir(), 'Projects')), -- Default folder for creating project.
+  configure_args = { '-D', 'CMAKE_EXPORT_COMPILE_COMMANDS=1' }, -- Default arguments that will be always passed at cmake configure step. By default tells cmake to generate `compile_commands.json`.
+  build_args = {}, -- Default arguments that will be always passed at cmake build step.
+  on_build_output = nil, -- Callback which will be called on every line that is printed during build process. Accepts printed line as argument.
+  quickfix_height = 10, -- Height of the opened quickfix.
+  quickfix_only_on_error = true, -- Open quickfix window only if target build failed.
+  dap_configuration = { type = 'cpp', request = 'launch' }, -- DAP configuration. By default configured to work with `lldb-vscode`.
+  dap_open_command = require('dap').repl.open, -- Command to run after starting DAP session. You can set it to `false` if you don't want to open anything or `require('dapui').open` if you are using https://github.com/rcarriga/nvim-dap-ui
+}
+ end
+},
+{'Pocco81/TrueZen.nvim'}
 }
 
 vim.cmd([[
