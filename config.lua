@@ -10,6 +10,9 @@ require'cmp'.setup.cmdline('/', {
   }
 })
 vim.api.nvim_command "let g:asyncrun_open = 8"
+lvim.builtin.nvimtree.respect_buf_cwd=0
+lvim.builtin.nvimtree.setup.update_cwd = false
+lvim.builtin.nvimtree.setup.update_focused_file.update_cwd = false
 lvim.line_wrap_cursor_movement = false
 lvim.builtin.cmp.sources = {
       { name = "nvim_lsp" },
@@ -225,7 +228,7 @@ lvim.builtin.which_key.mappings["g"]={
 -- vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
-lvim.builtin.dashboard.active = true
+-- lvim.builtin.dashboard.active = true
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.terminal.shell = "pwsh"
@@ -282,7 +285,7 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require("lvim.lsp.null-ls.formatters")
-formatters.setup({commands = "cmake_format", filetype = {"cmake"}})
+-- formatters.setup({{commands = "cmake_format", filetype = {"cmake"}},{ command = "black", filetypes = { "python" } },{ command = "stylua", filetypes = { "lua" } },})
 -- formatters.setup({
 -- 	{ command = "black", filetypes = { "python" } },
 -- 	{ command = "stylua", filetypes = { "lua" } },
@@ -698,7 +701,7 @@ require('cmake').setup{
   build_args = {}, -- Default arguments that will be always passed at cmake build step.
   on_build_output = nil, -- Callback which will be called on every line that is printed during build process. Accepts printed line as argument.
   quickfix_height = 10, -- Height of the opened quickfix.
-  quickfix_only_on_error = true, -- Open quickfix window only if target build failed.
+  -- quickfix_only_on_error = true, -- Open quickfix window only if target build failed.
   dap_configuration = { type = 'cpp', request = 'launch' }, -- DAP configuration. By default configured to work with `lldb-vscode`.
   dap_open_command = require('dap').repl.open, -- Command to run after starting DAP session. You can set it to `false` if you don't want to open anything or `require('dapui').open` if you are using https://github.com/rcarriga/nvim-dap-ui
 }
@@ -913,3 +916,8 @@ require('nvim-treesitter.configs').setup {
 --     neuron_dir = "~/neuron", -- the directory of all of your notes, expanded by default (currently supports only one directory for notes, find a way to detect neuron.dhall to use any directory)
 --     leader = "gz", -- the leader key to for all mappings, remember with 'go zettel'
 -- }
+require("nvim-lsp-installer").settings {
+   pip = {
+      install_args = { "--proxy", "http://proxy.onera:80" },
+   },
+}
