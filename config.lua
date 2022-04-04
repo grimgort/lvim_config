@@ -118,6 +118,7 @@ lvim.keys.normal_mode[ "<leader>zsp"] = ":lua require('spectre').open_file_searc
 lvim.keys.normal_mode[ "<leader>znb"] = ":AsyncRun cpplint % <cr>"
 
 lvim.keys.normal_mode[ "<leader>zz"] = ":TZFocus<cr>"
+lvim.keys.normal_mode[ "<leader>lm"] = ":SymbolsOutline<cr>"
 
 
 -- general
@@ -126,7 +127,7 @@ lvim.format_on_save = false
 lvim.colorscheme = "onedarker"
 vim.opt.ff = "unix"
 vim.opt.wrap = true
--- vim.opt.guifont = "monospace:h17"
+vim.opt.guifont = "JetBrains Mono:h14"
 vim.opt.fileencoding = "utf-8" -- the encoding written to a file
 vim.opt.colorcolumn = "99999"
 vim.opt.foldmethod = "expr"
@@ -640,19 +641,20 @@ lvim.plugins = {
 				-- Tell Neorg what modules to load
 				load = {
 					["core.defaults"] = {}, -- Load all the default modules
-					-- ["core.integrations.telescope"] = {},
-					-- ["core.keybinds"] = { -- Configure core.keybinds
-					--    config = {
-					--       default_keybinds = true, -- Generate the default keybinds
-					--       neorg_leader = "<Leader>wo", -- This is the default if unspecified
-					--    },
-					-- },
+					["core.integrations.telescope"] = {},
+					["core.keybinds"] = { -- Configure core.keybinds
+					   config = {
+					      default_keybinds = true, -- Generate the default keybinds
+					      neorg_leader = "<Leader>ze", -- This is the default if unspecified
+					   },
+					},
 					["core.norg.concealer"] = {}, -- Allows for use of icons
 					["core.norg.dirman"] = { -- Manage your directories with Neorg
 						config = {
-							workspaces = {
-								my_workspace = "~/neorg",
-							},
+                workspaces = {
+                    work = "~/NEORG/work",
+                    home = "~/NEORG/home",
+                }
 						},
 					},
 					["core.norg.completion"] = {
@@ -920,4 +922,189 @@ require("nvim-lsp-installer").settings {
    pip = {
       install_args = { "--proxy", "http://proxy.onera:80" },
    },
+}
+
+local dap = require('dap')
+dap.adapters.lldb = {
+  type = 'executable',
+  command = 'D:/ftarroux/scoop/apps/llvm/14.0.0/bin/lldb-vscode.exe', -- adjust as needed
+  name = "lldb"
+}
+
+dap.configurations.cpp = {
+  {
+    name = "Launch",
+    type = "lldb",
+    request = "launch",
+    program = function()
+      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+    end,
+    cwd = '${workspaceFolder}',
+    stopOnEntry = true,
+    args = {},
+
+    -- 💀
+    -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
+    --
+    --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+    --
+    -- Otherwise you might get the following error:
+    --
+    --    Error on launch: Failed to attach to the target process
+    --
+    -- But you should be aware of the implications:
+    -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
+
+    runInTerminal = false,
+
+    -- 💀
+    -- If you use `runInTerminal = true` and resize the terminal window,
+    -- lldb-vscode will receive a `SIGWINCH` signal which can cause problems
+    -- To avoid that uncomment the following option
+    -- See https://github.com/mfussenegger/nvim-dap/issues/236#issuecomment-1066306073
+    postRunCommands = {'process handle -p true -s false -n false SIGWINCH'}
+  },
+}
+
+
+-- If you want to use this for rust and c, add something like this:
+
+
+-- local dap = require('dap')
+-- dap.adapters.cppdbg = {
+--   id = 'cppdbg',
+--   type = 'executable',
+--   command = 'D:/ftarroux/Downloads/cpptools-win64/extension/debugAdapters/bin/OpenDebugAD7.exe',
+-- }
+-- dap.configurations.cpp = {
+--   {
+--     name = "Launch file",
+--     type = "cppdbg",
+--     request = "launch",
+--     -- program = function()
+--     --   return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+--     -- end,
+--     program = "D:/ftarroux/Documents/FRED/BaseGit/matisse_fred/build/bin/Debug/main_se_atmosphere.exe",
+--     cwd = '${workspaceFolder}',
+--     stopOnEntry = true,
+--   },
+--   {
+--     name = 'Attach to gdbserver :1234',
+--     type = 'cppdbg',
+--     request = 'launch',
+--     MIMode = 'gdb',
+--     miDebuggerServerAddress = 'localhost:1234',
+--     miDebuggerPath = 'D:/ftarroux/Logiciel/mingw64_10_2/bin/gdb.exe',
+--     cwd = '${workspaceFolder}',
+--     program = function()
+--       return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+--     end,
+--   },
+-- }
+-- local dap = require('dap')
+-- dap.adapters.codelldb = function(on_adapter)
+--   local stdout = vim.loop.new_pipe(false)
+--   local stderr = vim.loop.new_pipe(false)
+
+--   -- CHANGE THIS!
+--   local cmd = 'D:/ftarroux/Downloads/codelldb-x86_64-windows/extension/adapter/codelldb.exe'
+
+--   local handle, pid_or_err
+--   local opts2 = {
+--     stdio = {nil, stdout, stderr},
+--     detached = true,
+--   }
+--   handle, pid_or_err = vim.loop.spawn(cmd, opts2, function(code)
+--     stdout:close()
+--     stderr:close()
+--     handle:close()
+--     if code ~= 0 then
+--       print("codelldb exited with code", code)
+--     end
+--   end)
+--   assert(handle, "Error running codelldb: " .. tostring(pid_or_err))
+--   stdout:read_start(function(err, chunk)
+--     assert(not err, err)
+--     if chunk then
+--       local port = chunk:match('Listening on port (%d+)')
+--       if port then
+--         vim.schedule(function()
+--           on_adapter({
+--             type = 'server',
+--             host = '127.0.0.1',
+--             port = port
+--           })
+--         end)
+--       else
+--         vim.schedule(function()
+--           require("dap.repl").append(chunk)
+--         end)
+--       end
+--     end
+--   end)
+--   stderr:read_start(function(err, chunk)
+--     assert(not err, err)
+--     if chunk then
+--       vim.schedule(function()
+--         require("dap.repl").append(chunk)
+--       end)
+--     end
+--   end)
+-- end
+-- dap.configurations.cpp = {
+--   {
+--     name = "Launch file",
+--     type = "codelldb",
+--     request = "launch",
+--     program = "D:/ftarroux/Documents/FRED/BaseGit/matisse_fred/build/bin/Debug/main_se_atmosphere.exe",
+--     -- program = function()
+--     --   return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+--     -- end,
+--     cwd = '${workspaceFolder}',
+--     stopOnEntry = true,
+--   },
+-- }
+dap.configurations.c = dap.configurations.cpp
+dap.configurations.rust = dap.configurations.cpp
+
+
+require'lightspeed'.setup {
+  ignore_case = true,
+  -- exit_after_idle_msecs = { unlabeled = 1000, labeled = nil },
+  -- --- s/x ---
+  -- jump_to_unique_chars = { safety_timeout = 400 },
+  -- match_only_the_start_of_same_char_seqs = true,
+  -- force_beacons_into_match_width = false,
+  -- -- Display characters in a custom way in the highlighted matches.
+  -- substitute_chars = { ['\r'] = '¬', },
+  -- -- Leaving the appropriate list empty effectively disables "smart" mode,
+  -- -- and forces auto-jump to be on or off.
+  -- safe_labels = { . . . },
+  -- labels = { . . . },
+  -- These keys are captured directly by the plugin at runtime.
+  special_keys = {
+    next_match_group = '<space>',
+    prev_match_group = '<tab>',
+  },
+  --- f/t ---
+  -- limit_ft_matches = 4,
+  -- repeat_ft_with_target_char = false,
+}
+-- vim.list_extend(lvim.lsp.override, { "ltex" })
+-- local ltex_setup= {
+--   cmd = "D:/ftarroux/AppData/Roaming/nvim-data/lsp_servers/ltex/ltex-ls/bin/ltex-ls.bat",
+-- filetypes  = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" },
+--   language = "FR-fr"
+
+
+-- }
+-- require("lvim.lsp.manager").setup("ltex",ltex_setup)
+
+require'lspconfig'.ltex.setup{
+  -- cmd = "D:/ftarroux/AppData/Roaming/nvim-data/lsp_servers/ltex/ltex-ls/bin/ltex-ls.bat",
+filetypes  = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" },
+  -- language = "auto"
+  -- language = "fr"
+-- get_langage_id="auto"
+
 }
