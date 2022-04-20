@@ -39,7 +39,7 @@ lvim.builtin.cmp.source_names ={
         buffer = "(Buffer)",
   spell="(spell)"
    }
-vim.opt.spelllang = { 'en_us' }
+-- vim.opt.spelllang = { 'en_us' }
 --[[
 lvim is the global options object
 
@@ -99,6 +99,7 @@ lvim.keys.normal_mode[ "<leader>zq"] = "<cmd>copen<CR>"
 lvim.keys.visual_mode["*"]=[[y/\V<C-r>=escape(@",'/\')<CR><CR>]]
 lvim.keys.normal_mode["<leader>zh"]= [[:%s/<c-r><c-w>/<c-r><c-w>/g]]
 lvim.keys.normal_mode[ "<leader>zc"] = ":Telescope grep_string<cr>"
+lvim.keys.normal_mode["<leader>sF"] = ":Telescope find_files hidden=true no_ignore=true<cr>"
 lvim.keys.normal_mode[ "<leader>zm"] = "<cmd>Glow<cr>"
 lvim.keys.normal_mode[ "<leader>zp"] = "<cmd>MarkdownPreview<cr>"
 lvim.keys.normal_mode[ "<leader>dd"] = ":TranslateW<cr>"
@@ -174,7 +175,7 @@ lvim.builtin.telescope.defaults.mappings = {
 		["<C-k>"] = actions.move_selection_previous,
 	},
 }
-
+lvim.builtin.telescope.defaults.wrap_result=true
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["t"] = {
@@ -241,7 +242,6 @@ lvim.builtin.telescope.defaults.layout_config.width = 0.99
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
 lvim.builtin.dap.active=true
-vim.cmd([[autocmd User TelescopePreviewerLoaded setlocal wrap]])
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -338,6 +338,27 @@ lvim.plugins = {
 	{ "folke/tokyonight.nvim" },
 	{
 		"ggandor/lightspeed.nvim",
+    config = function()
+  require("lightspeed").setup {
+  ignore_case = true,
+  -- exit_after_idle_msecs = { unlabeled = 1000, labeled = nil },
+  -- --- s/x ---
+  -- jump_to_unique_chars = { safety_timeout = 400 },
+  -- match_only_the_start_of_same_char_seqs = true,
+  -- force_beacons_into_match_width = false,
+  -- -- Display characters in a custom way in the highlighted matches.
+  -- substitute_chars = { ['\r'] = '¬', },
+  -- -- Leaving the appropriate list empty effectively disables "smart" mode,
+  -- -- and forces auto-jump to be on or off.
+  -- safe_labels = { . . . },
+  -- labels = { . . . },
+  -- These keys are captured directly by the plugin at runtime.
+  special_keys = {
+    next_match_group = '<space>',
+    prev_match_group = '<tab>',
+  },
+      }
+    end,
 		event = "BufRead",
 	},
 
@@ -423,11 +444,11 @@ lvim.plugins = {
 	{
 		"p00f/nvim-ts-rainbow",
 	},
-	{
-		"nvim-telescope/telescope-fzy-native.nvim",
-		run = "make",
-		event = "BufRead",
-	},
+	-- {
+	-- 	"nvim-telescope/telescope-fzy-native.nvim",
+	-- 	run = "make",
+	-- 	event = "BufRead",
+	-- },
 	{
 		"nvim-telescope/telescope-project.nvim",
 		event = "BufWinEnter",
@@ -1067,30 +1088,7 @@ dap.configurations.cpp = {
 dap.configurations.c = dap.configurations.cpp
 dap.configurations.rust = dap.configurations.cpp
 
-
-require'lightspeed'.setup {
-  ignore_case = true,
-  -- exit_after_idle_msecs = { unlabeled = 1000, labeled = nil },
-  -- --- s/x ---
-  -- jump_to_unique_chars = { safety_timeout = 400 },
-  -- match_only_the_start_of_same_char_seqs = true,
-  -- force_beacons_into_match_width = false,
-  -- -- Display characters in a custom way in the highlighted matches.
-  -- substitute_chars = { ['\r'] = '¬', },
-  -- -- Leaving the appropriate list empty effectively disables "smart" mode,
-  -- -- and forces auto-jump to be on or off.
-  -- safe_labels = { . . . },
-  -- labels = { . . . },
-  -- These keys are captured directly by the plugin at runtime.
-  special_keys = {
-    next_match_group = '<space>',
-    prev_match_group = '<tab>',
-  },
-  --- f/t ---
-  -- limit_ft_matches = 4,
-  -- repeat_ft_with_target_char = false,
-}
--- vim.list_extend(lvim.lsp.override, { "ltex" })
+vim.list_extend(lvim.lsp.override, { "ltex" })
 -- local ltex_setup= {
 --   cmd = "D:/ftarroux/AppData/Roaming/nvim-data/lsp_servers/ltex/ltex-ls/bin/ltex-ls.bat",
 -- filetypes  = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" },
@@ -1108,3 +1106,7 @@ filetypes  = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb
 -- get_langage_id="auto"
 
 }
+
+
+
+vim.cmd([[autocmd User TelescopePreviewerLoaded setlocal wrap]])
