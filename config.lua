@@ -1,44 +1,43 @@
-
-
-require'cmp'.setup.cmdline('/', {
-  sources = {
-    { name = 'buffer' }
-  }
-})require'cmp'.setup.cmdline(':', {
-  sources = {
-    { name = 'cmdline' }
-  }
+require("cmp").setup.cmdline("/", {
+	sources = {
+		{ name = "buffer" },
+	},
 })
-vim.api.nvim_command "let g:asyncrun_open = 8"
-lvim.builtin.nvimtree.respect_buf_cwd=0
+require("cmp").setup.cmdline(":", {
+	sources = {
+		{ name = "cmdline" },
+	},
+})
+vim.api.nvim_command("let g:asyncrun_open = 8")
+lvim.builtin.nvimtree.respect_buf_cwd = 0
 lvim.builtin.nvimtree.setup.update_cwd = false
 lvim.builtin.nvimtree.setup.update_focused_file.update_cwd = false
 lvim.line_wrap_cursor_movement = false
 lvim.builtin.cmp.sources = {
-      { name = "nvim_lsp" },
-      { name = "path" },
-      { name = "luasnip" },
-      { name = "cmp_tabnine" },
-      { name = "nvim_lua" },
-      { name = "buffer" },
-      { name = "calc" },
-      { name = "emoji" },
-      { name = "treesitter" },
-      { name = "crates" },
-{name="spell"},
-{name="dictionary"}
-    }
-lvim.builtin.cmp.source_names ={
-        nvim_lsp = "(LSP)",
-        emoji = "(Emoji)",
-        path = "(Path)",
-        calc = "(Calc)",
-        cmp_tabnine = "(Tabnine)",
-        vsnip = "(Snippet)",
-        luasnip = "(Snippet)",
-        buffer = "(Buffer)",
-  spell="(spell)"
-   }
+	{ name = "nvim_lsp" },
+	{ name = "path" },
+	{ name = "luasnip" },
+	{ name = "cmp_tabnine" },
+	{ name = "nvim_lua" },
+	{ name = "buffer" },
+	{ name = "calc" },
+	{ name = "emoji" },
+	{ name = "treesitter" },
+	{ name = "crates" },
+	{ name = "spell" },
+	{ name = "dictionary" },
+}
+lvim.builtin.cmp.source_names = {
+	nvim_lsp = "(LSP)",
+	emoji = "(Emoji)",
+	path = "(Path)",
+	calc = "(Calc)",
+	cmp_tabnine = "(Tabnine)",
+	vsnip = "(Snippet)",
+	luasnip = "(Snippet)",
+	buffer = "(Buffer)",
+	spell = "(spell)",
+}
 -- vim.opt.spelllang = { 'en_us' }
 --[[
 lvim is the global options object
@@ -85,42 +84,41 @@ lvim.keys.normal_mode["<leader>zd"] = ":DevDocsUnderCursor<cr>"
 -- lvim.keys.normal_mode[ "<leader>zd"] = ":DevDocsUnderCursor<cr>"
 -- lvim.keys.normal_mode[ "<leader>zn"] = ":edit ~/NEORG/index.norg<cr>"
 
-lvim.keys.normal_mode[ "<leader>zx"] = ":only<cr>"
-lvim.keys.normal_mode[ "<leader>za"] = ":tabnew<cr>"
-lvim.keys.normal_mode[ "²"] = ":CloseAll<cr>"
+lvim.keys.normal_mode["<leader>zx"] = ":only<cr>"
+lvim.keys.normal_mode["<leader>za"] = ":tabnew<cr>"
+lvim.keys.normal_mode["²"] = ":CloseAll<cr>"
 vim.api.nvim_set_keymap("i", "²", "<C-o>:CloseAll<cr>", opt)
 vim.api.nvim_set_keymap("t", "²", "<C-\\><C-n>CloseAll<cr>", opt)
 vim.api.nvim_set_keymap("t", "<C-a>", "<C-\\><C-n>", opt)
-vim.api.nvim_set_keymap( "t", "<C-j>", [[<DOWN>]], opt)
-vim.api.nvim_set_keymap( "t", "<C-k>", [[<UP>]], opt)
-lvim.keys.normal_mode[ "<leader>zq"] = "<cmd>copen<CR>"
+vim.api.nvim_set_keymap("t", "<C-j>", [[<DOWN>]], opt)
+vim.api.nvim_set_keymap("t", "<C-k>", [[<UP>]], opt)
+lvim.keys.normal_mode["<leader>zq"] = "<cmd>copen<CR>"
 -- lvim.keys.normal_mode[ "<F7>"] = "<cmd>CMake build_all<CR>"
 
-lvim.keys.visual_mode["*"]=[[y/\V<C-r>=escape(@",'/\')<CR><CR>]]
-lvim.keys.normal_mode["<leader>zh"]= [[:%s/<c-r><c-w>/<c-r><c-w>/g]]
-lvim.keys.normal_mode[ "<leader>zc"] = ":Telescope grep_string<cr>"
+lvim.keys.visual_mode["*"] = [[y/\V<C-r>=escape(@",'/\')<CR><CR>]]
+lvim.keys.normal_mode["<leader>zh"] = [[:%s/<c-r><c-w>/<c-r><c-w>/g]]
+lvim.keys.normal_mode["<leader>zc"] = ":Telescope grep_string<cr>"
 lvim.keys.normal_mode["<leader>sF"] = ":Telescope find_files hidden=true no_ignore=true<cr>"
-lvim.keys.normal_mode[ "<leader>zm"] = "<cmd>Glow<cr>"
-lvim.keys.normal_mode[ "<leader>zp"] = "<cmd>MarkdownPreview<cr>"
-lvim.keys.normal_mode[ "<leader>dd"] = ":TranslateW<cr>"
-lvim.keys.visual_mode[ "<leader>dd"] = ":TranslateW<cr>"
-lvim.keys.normal_mode[ "<leader>dr"] = ":TranslateR<cr>"
-lvim.keys.visual_mode[ "<leader>dr"] = ":TranslateR<cr>"
-lvim.keys.normal_mode[ "<leader>da"] = ":TranslateW!<cr>"
-lvim.keys.visual_mode[ "<leader>da"] = ":TranslateW!<cr>"
-lvim.keys.normal_mode[ "<leader>dz"] = ":TranslateR!<cr>"
-lvim.keys.visual_mode[ "<leader>dz"] = ":TranslateR!<cr>"
-lvim.keys.normal_mode[ "<leader>zS"] = ":lua require('spectre').open()<CR>"
+lvim.keys.normal_mode["<leader>zm"] = "<cmd>Glow<cr>"
+lvim.keys.normal_mode["<leader>zp"] = "<cmd>MarkdownPreview<cr>"
+lvim.keys.normal_mode["<leader>dd"] = ":TranslateW<cr>"
+lvim.keys.visual_mode["<leader>dd"] = ":TranslateW<cr>"
+lvim.keys.normal_mode["<leader>dr"] = ":TranslateR<cr>"
+lvim.keys.visual_mode["<leader>dr"] = ":TranslateR<cr>"
+lvim.keys.normal_mode["<leader>da"] = ":TranslateW!<cr>"
+lvim.keys.visual_mode["<leader>da"] = ":TranslateW!<cr>"
+lvim.keys.normal_mode["<leader>dz"] = ":TranslateR!<cr>"
+lvim.keys.visual_mode["<leader>dz"] = ":TranslateR!<cr>"
+lvim.keys.normal_mode["<leader>zS"] = ":lua require('spectre').open()<CR>"
 -- search current word
-lvim.keys.normal_mode[ "<leader>zsw"] = ":lua require('spectre').open_visual({select_word=true})<CR>"
-lvim.keys.visual_mode[ "<leader>zss"] = ":lua require('spectre').open_visual()<CR>"
+lvim.keys.normal_mode["<leader>zsw"] = ":lua require('spectre').open_visual({select_word=true})<CR>"
+lvim.keys.visual_mode["<leader>zss"] = ":lua require('spectre').open_visual()<CR>"
 -- search in current file
-lvim.keys.normal_mode[ "<leader>zsp"] = ":lua require('spectre').open_file_search()<cr>"
-lvim.keys.normal_mode[ "<leader>znb"] = ":AsyncRun cpplint % <cr>"
+lvim.keys.normal_mode["<leader>zsp"] = ":lua require('spectre').open_file_search()<cr>"
+lvim.keys.normal_mode["<leader>znb"] = ":AsyncRun cpplint % <cr>"
 
-lvim.keys.normal_mode[ "<leader>zz"] = ":TZFocus<cr>"
-lvim.keys.normal_mode[ "<leader>lm"] = ":SymbolsOutline<cr>"
-
+lvim.keys.normal_mode["<leader>zz"] = ":TZFocus<cr>"
+lvim.keys.normal_mode["<leader>lm"] = ":SymbolsOutline<cr>"
 
 -- general
 lvim.log.level = "warn"
@@ -137,6 +135,8 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 20
 vim.opt.swapfile = true
 vim.opt.spell = false
+vim.opt.smartindent = true
+vim.opt.autoindent = true
 
 -- vim.api.nvim_command "set nospell"
 
@@ -144,7 +144,7 @@ vim.opt.spell = false
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-lvim.keys.normal_mode["<leader>sy"] = ":lua require(\"telescope\").extensions.live_grep_raw.live_grep_raw()<cr>"
+lvim.keys.normal_mode["<leader>sy"] = ':lua require("telescope").extensions.live_grep_raw.live_grep_raw()<cr>'
 lvim.keys.normal_mode["<leader>ss"] = ":Telescope grep_string<cr>"
 
 -- lvim.keys.normal_mode["<leader>dd"] = ":TranslateW<cr>"
@@ -152,6 +152,8 @@ lvim.keys.normal_mode["<leader>ss"] = ":Telescope grep_string<cr>"
 -- lvim.keys.normal_mode["<F6>"] = ":AsyncRun cmake --build build --config Release<cr>"
 lvim.keys.normal_mode["<F7>"] = ":CMake build_all -j4<cr>"
 lvim.keys.normal_mode["<F6>"] = ":CMake build_all --config Release -j4<cr>"
+-- lvim.keys.normal_mode["<F5>"] = ":AsyncRun pwsh -Command \"frintelcompile\"<cr>"
+lvim.keys.normal_mode["<F5>"] = ':AsyncRun pwsh -Command "frvisualcompile"<cr>'
 -- lvim.keys.normal_mode["²"] = ":CloseAll<cr>"
 
 -- unmap a default keymapping
@@ -162,7 +164,7 @@ lvim.keys.normal_mode["<F6>"] = ":CMake build_all --config Release -j4<cr>"
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
 local _, actions = pcall(require, "telescope.actions")
 lvim.builtin.telescope.defaults.mappings = {
-        -- for input mode
+	-- for input mode
 	i = {
 		["<C-j>"] = actions.move_selection_next,
 		["<C-k>"] = actions.move_selection_previous,
@@ -177,16 +179,17 @@ lvim.builtin.telescope.defaults.mappings = {
 		["<C-k>"] = actions.move_selection_previous,
 	},
 }
-lvim.builtin.telescope.defaults.wrap_result=true
+lvim.builtin.telescope.defaults.wrap_result = true
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["t"] = {
-  name = "+Trouble", r = {"<cmd>Trouble lsp_references<cr>", "References"},
-  f = {"<cmd>Trouble lsp_definitions<cr>", "Definitions"},
-  d = {"<cmd>Trouble lsp_document_diagnostics<cr>", "Diagnostics"},
-  q = {"<cmd>Trouble quickfix<cr>", "QuickFix"},
-  l = {"<cmd>Trouble loclist<cr>", "LocationList"},
-  w = {"<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnostics"},
+	name = "+Trouble",
+	r = { "<cmd>Trouble lsp_references<cr>", "References" },
+	f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
+	d = { "<cmd>Trouble lsp_document_diagnostics<cr>", "Diagnostics" },
+	q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
+	l = { "<cmd>Trouble loclist<cr>", "LocationList" },
+	w = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnostics" },
 }
 
 -- lvim.builtin.terminal.execs ={
@@ -200,33 +203,36 @@ lvim.builtin.which_key.mappings["t"] = {
 --   lazygit:toggle()
 -- end
 
-lvim.builtin.which_key.mappings["g"]={
-        name = "Git",
-        j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
-        k = { "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" },
-        -- l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
-        l = { "<cmd>GitMessenger<cr>", "Blame" },
-        p = { "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", "Preview Hunk" },
-        r = { "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", "Reset Hunk" },
-        R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
-        s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" },
-        u = {
-          "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
-          "Undo Stage Hunk",
-        },
-        o = { "<cmd>Telescope git_status<cr>", "Open changed file" },
-        b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
-        c = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
-        C = {
-          "<cmd>Telescope git_bcommits<cr>",
-          "Checkout commit(for current file)",
-        },
-        d = {
-          "<cmd>Gitsigns diffthis HEAD<cr>",
-          "Git Diff",
-        },
-        g={"<cmd>LazyGit<cr>","LazyGit"},
-        M ={":!git branch --merged | Select-String -Pattern '^(?!.*(master|.*-stable)).*$' | ForEach-Object { git branch -d $_.ToString().Trim() } <cr>", "clean merged branch"}
+lvim.builtin.which_key.mappings["g"] = {
+	name = "Git",
+	j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
+	k = { "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" },
+	-- l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
+	l = { "<cmd>GitMessenger<cr>", "Blame" },
+	p = { "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", "Preview Hunk" },
+	r = { "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", "Reset Hunk" },
+	R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
+	s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" },
+	u = {
+		"<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
+		"Undo Stage Hunk",
+	},
+	o = { "<cmd>Telescope git_status<cr>", "Open changed file" },
+	b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
+	c = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
+	C = {
+		"<cmd>Telescope git_bcommits<cr>",
+		"Checkout commit(for current file)",
+	},
+	d = {
+		"<cmd>Gitsigns diffthis HEAD<cr>",
+		"Git Diff",
+	},
+	g = { "<cmd>LazyGit<cr>", "LazyGit" },
+	M = {
+		":!git branch --merged | Select-String -Pattern '^(?!.*(master|.*-stable)).*$' | ForEach-Object { git branch -d $_.ToString().Trim() } <cr>",
+		"clean merged branch",
+	},
 }
 -- lvim.keys.normal_mode["g"] = "<cmd>LazyGit"
 -- vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
@@ -236,14 +242,14 @@ lvim.builtin.which_key.mappings["g"]={
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.terminal.shell = "pwsh"
-lvim.builtin.terminal.hide_numbers=false
+lvim.builtin.terminal.hide_numbers = false
 -- lvim.builtin.terminal.insert_mappings=false
-lvim.builtin.terminal.start_in_insert=true
-lvim.builtin.terminal.size=40
+lvim.builtin.terminal.start_in_insert = true
+lvim.builtin.terminal.size = 40
 lvim.builtin.telescope.defaults.layout_config.width = 0.99
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
-lvim.builtin.dap.active=true
+lvim.builtin.dap.active = true
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -291,6 +297,7 @@ local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
 	{ command = "black", filetypes = { "python" } },
 	{ command = "stylua", filetypes = { "lua" } },
+	{ command = "fprettify", filetypes = { "fortran" } },
 	-- { command = "isort", filetypes = { "python" } },
 	-- {
 	--   -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
@@ -306,66 +313,68 @@ formatters.setup({
 -- -- set additional linters
 -- local linters = require "lvim.lsp.null-ls.linters"
 -- linters.setup {
-  --{command = "flake8", filetypes = {"python"}}, --{
-    ----each linter accepts a list of options identical to https
-        -- : // github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
-        --   --command = "shellcheck",
-          -----@usage arguments to pass to the formatter-- --these cannot
-  --                 contain whitespaces,
-  --         options such as `--line - width 80` become either `{
-  --     '--line-width', '80'
-  --   }
-  --   ` or `{ '--line-width=80' }
-  --   ` --extra_args = {"--severity", "warning"}, --
-  -- }
-  -- , --{
-  --   --command = "codespell",
-  --   -----@usage specify which filetypes to enable
-  --            .By default a providers will attach to all the filetypes it
-  --                supports.--filetypes = {"javascript", "python"},
-  --   --
-  -- }
-  -- , -- }
+--{command = "flake8", filetypes = {"python"}}, --{
+----each linter accepts a list of options identical to https
+-- : // github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+--   --command = "shellcheck",
+-----@usage arguments to pass to the formatter-- --these cannot
+--                 contain whitespaces,
+--         options such as `--line - width 80` become either `{
+--     '--line-width', '80'
+--   }
+--   ` or `{ '--line-width=80' }
+--   ` --extra_args = {"--severity", "warning"}, --
+-- }
+-- , --{
+--   --command = "codespell",
+--   -----@usage specify which filetypes to enable
+--            .By default a providers will attach to all the filetypes it
+--                supports.--filetypes = {"javascript", "python"},
+--   --
+-- }
+-- , -- }
 
 -- Additional Plugins
 -- lvim.plugins = {
-  --{"folke/tokyonight.nvim"},
-      --{--"folke/trouble.nvim", --cmd = "TroubleToggle", --}, -- }
+--{"folke/tokyonight.nvim"},
+--{--"folke/trouble.nvim", --cmd = "TroubleToggle", --}, -- }
 -- Additional Plugins
 -- require("toggleterm").setup({
 -- 	shell = "pwsh.exe", -- change the default shell
 -- })
 lvim.plugins = {
-	{ "folke/tokyonight.nvim" },
+	{ "folke/tokyonight.nvim", disable = false },
 	{
 		"ggandor/lightspeed.nvim",
-    config = function()
-  require("lightspeed").setup {
-  ignore_case = true,
-  -- exit_after_idle_msecs = { unlabeled = 1000, labeled = nil },
-  -- --- s/x ---
-  -- jump_to_unique_chars = { safety_timeout = 400 },
-  -- match_only_the_start_of_same_char_seqs = true,
-  -- force_beacons_into_match_width = false,
-  -- -- Display characters in a custom way in the highlighted matches.
-  -- substitute_chars = { ['\r'] = '¬', },
-  -- -- Leaving the appropriate list empty effectively disables "smart" mode,
-  -- -- and forces auto-jump to be on or off.
-  -- safe_labels = { . . . },
-  -- labels = { . . . },
-  -- These keys are captured directly by the plugin at runtime.
-  special_keys = {
-    next_match_group = '<space>',
-    prev_match_group = '<tab>',
-  },
-      }
-    end,
+		disable = false,
+		config = function()
+			require("lightspeed").setup({
+				ignore_case = true,
+				-- exit_after_idle_msecs = { unlabeled = 1000, labeled = nil },
+				-- --- s/x ---
+				-- jump_to_unique_chars = { safety_timeout = 400 },
+				-- match_only_the_start_of_same_char_seqs = true,
+				-- force_beacons_into_match_width = false,
+				-- -- Display characters in a custom way in the highlighted matches.
+				-- substitute_chars = { ['\r'] = '¬', },
+				-- -- Leaving the appropriate list empty effectively disables "smart" mode,
+				-- -- and forces auto-jump to be on or off.
+				-- safe_labels = { . . . },
+				-- labels = { . . . },
+				-- These keys are captured directly by the plugin at runtime.
+				special_keys = {
+					next_match_group = "<space>",
+					prev_match_group = "<tab>",
+				},
+			})
+		end,
 		event = "BufRead",
 	},
 
 	{
 		"kevinhwang91/nvim-bqf",
-    tag="*",
+		disable = false,
+		tag = "*",
 		event = { "BufRead", "BufNew" },
 		config = function()
 			require("bqf").setup({
@@ -392,6 +401,7 @@ lvim.plugins = {
 	},
 	{
 		"windwp/nvim-spectre",
+		disable = false,
 		event = "BufRead",
 		config = function()
 			require("spectre").setup()
@@ -399,7 +409,8 @@ lvim.plugins = {
 	},
 	{
 		"andymass/vim-matchup",
-    tag="*",
+		disable = false,
+		tag = "*",
 		event = "CursorMoved",
 		config = function()
 			vim.g.matchup_matchparen_offscreen = { method = "popup" }
@@ -407,9 +418,10 @@ lvim.plugins = {
 	},
 	{
 		"sindrets/diffview.nvim",
+		disable = false,
 		event = "BufRead",
 	},
-  -- replacde by :Gitsigns toggle_current_line_blame
+	-- replacde by :Gitsigns toggle_current_line_blame
 	-- {
 	-- 	"f-person/git-blame.nvim",
 	-- 	event = "BufRead",
@@ -420,7 +432,8 @@ lvim.plugins = {
 	-- },
 	{
 		"tpope/vim-fugitive",
-    tag="*",
+		disable = false,
+		tag = "*",
 		-- cmd = {
 		-- 	"G",
 		-- 	"Git",
@@ -440,6 +453,7 @@ lvim.plugins = {
 	},
 	{
 		"windwp/nvim-ts-autotag",
+		disable = false,
 		event = "InsertEnter",
 		config = function()
 			require("nvim-ts-autotag").setup()
@@ -447,6 +461,7 @@ lvim.plugins = {
 	},
 	{
 		"p00f/nvim-ts-rainbow",
+		disable = false,
 	},
 	-- {
 	-- 	"nvim-telescope/telescope-fzy-native.nvim",
@@ -455,6 +470,7 @@ lvim.plugins = {
 	-- },
 	{
 		"nvim-telescope/telescope-project.nvim",
+		disable = false,
 		event = "BufWinEnter",
 		setup = function()
 			vim.cmd([[packadd telescope.nvim]])
@@ -462,10 +478,12 @@ lvim.plugins = {
 	},
 	{
 		"folke/lsp-colors.nvim",
+		disable = false,
 		event = "BufRead",
 	},
 	{
 		"rmagatti/goto-preview",
+		disable = false,
 		config = function()
 			require("goto-preview").setup({
 				width = 120, -- Width of the floating window
@@ -491,6 +509,7 @@ lvim.plugins = {
 	-- },
 	{
 		"ray-x/lsp_signature.nvim",
+		disable = false,
 		event = "BufRead",
 		config = function()
 			require("lsp_signature").setup()
@@ -498,15 +517,18 @@ lvim.plugins = {
 	},
 	{
 		"simrat39/symbols-outline.nvim",
+		disable = false,
 		cmd = "SymbolsOutline",
 	},
 	{
 		"npxbr/glow.nvim",
+		disable = false,
 		ft = { "markdown" },
 		-- run = "yay -S glow"
 	},
 	{
 		"lukas-reineke/indent-blankline.nvim",
+		disable = false,
 		event = "BufRead",
 		setup = function()
 			vim.g.indentLine_enabled = 1
@@ -515,18 +537,24 @@ lvim.plugins = {
 			vim.g.indent_blankline_buftype_exclude = { "terminal" }
 			vim.g.indent_blankline_show_trailing_blankline_indent = false
 			vim.g.indent_blankline_show_first_indent_level = false
+			require("indent_blankline").setup({
+				show_current_context = true,
+				show_current_context_start = true,
+			})
 		end,
 	},
 	{
-	  "iamcco/markdown-preview.nvim",
-	  run = "cd app && npm install",
-	  ft = "markdown",
-	  config = function()
-	    vim.g.mkdp_auto_start = 1
-	  end,
+		"iamcco/markdown-preview.nvim",
+		disable = false,
+		run = "cd app && npm install",
+		ft = "markdown",
+		config = function()
+			vim.g.mkdp_auto_start = 1
+		end,
 	},
 	{
 		"ethanholz/nvim-lastplace",
+		disable = false,
 		event = "BufRead",
 		config = function()
 			require("nvim-lastplace").setup({
@@ -543,6 +571,7 @@ lvim.plugins = {
 	},
 	{
 		"folke/todo-comments.nvim",
+		disable = false,
 		event = "BufRead",
 		config = function()
 			require("todo-comments").setup()
@@ -572,9 +601,10 @@ lvim.plugins = {
 	--        require("surround").setup { mappings_style = "sandwich", prefix = "e" }
 	--     end,
 	--  },
-	{ "stevearc/aerial.nvim" },
+	{ "stevearc/aerial.nvim", disable = false },
 	{
 		"voldikss/vim-translator",
+		disable = false,
 		config = function()
 			vim.api.nvim_set_var("translator_target_lang", "fr")
 			vim.api.nvim_set_var("translator_source_lang", "en")
@@ -585,14 +615,14 @@ lvim.plugins = {
 	--       "Shatur/neovim-cmake",
 	--       config = function()
 	-- require('cmake').setup({
-  ----parameters_file = 'neovim.json',
-  --JSON file to store information about selected target,
-  -- run arguments and build type.--build_dir = '{cwd}/build',
-  -- --Build directory.The expressions `{
-  --   cwd
-  -- }
-  -- `, `{ os }
-  -- ` and `{ build_type }` will be expanded with the corresponding text values.
+	----parameters_file = 'neovim.json',
+	--JSON file to store information about selected target,
+	-- run arguments and build type.--build_dir = '{cwd}/build',
+	-- --Build directory.The expressions `{
+	--   cwd
+	-- }
+	-- `, `{ os }
+	-- ` and `{ build_type }` will be expanded with the corresponding text values.
 	--   -- samples_path = script_path:parent():parent():parent() / 'samples', -- Folder with samples. `samples` folder from the plugin directory is used by default.
 	--   -- default_projects_path = '~/Projects', -- Default folder for creating project.
 	--   -- configure_arguments = '-D CMAKE_EXPORT_COMPILE_COMMANDS=1', -- Default arguments that will be always passed at cmake configure step. By default tells cmake to generate `compile_commands.json`.
@@ -605,35 +635,41 @@ lvim.plugins = {
 	--       end,
 	--    },
 
-	{ "skywind3000/asyncrun.vim" },
-	{ "skywind3000/asynctasks.vim" },
+	{ "skywind3000/asyncrun.vim", disable = false },
+	{ "skywind3000/asynctasks.vim", disable = false },
 
-	{ "simnalamburt/vim-mundo" },
-	{ "vim-scripts/DoxygenToolkit.vim" },
+	{ "simnalamburt/vim-mundo", disable = false },
+	{ "vim-scripts/DoxygenToolkit.vim", disable = false },
 	{
 		"kosayoda/nvim-lightbulb",
+		disable = false,
 		config = function()
 			vim.cmd([[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]])
 		end,
 	},
-  {
-     "hrsh7th/cmp-cmdline",
-  },
+	{
+		"hrsh7th/cmp-cmdline",
+		disable = false,
+	},
 	{
 		"hrsh7th/cmp-calc",
+		disable = false,
 		after = "cmp-nvim-lsp",
 	},
-  {
-    "uga-rosa/cmp-dictionary"
-  },
-  {
-    "f3fora/cmp-spell"
-  },
+	{
+		"uga-rosa/cmp-dictionary",
+		disable = false,
+	},
+	{
+		"f3fora/cmp-spell",
+		disable = false,
+	},
 	{
 		"nacro90/numb.nvim",
+		disable = false,
 		config = function()
 			require("numb").setup({
-                                show_numbers = true, -- Enable 'number' for the window while peeking
+				show_numbers = true, -- Enable 'number' for the window while peeking
 				show_cursorline = true, -- Enable 'cursorline' for the window while peeking
 				number_only = false, -- Peek only when the command is only a number instead of when it starts with a number
 			})
@@ -641,6 +677,7 @@ lvim.plugins = {
 	},
 	{
 		"rhysd/git-messenger.vim",
+		disable = false,
 		config = function()
 			-- vim.api.nvim_command 'let g:git_messenger_include_diff="current"'
 			vim.api.nvim_command("let g:git_messenger_floating_win_opts = { 'border': 'single' }")
@@ -648,11 +685,12 @@ lvim.plugins = {
 			vim.api.nvim_command("let g:git_messenger_always_into_popup=v:true")
 		end,
 	},
-	{ "mg979/vim-visual-multi", config = function() end },
-	{ "xolox/vim-misc" },
-	{ "xolox/vim-colorscheme-switcher" },
+	{ "mg979/vim-visual-multi", disable = false, config = function() end },
+	{ "xolox/vim-misc", disable = false },
+	{ "xolox/vim-colorscheme-switcher", disable = false },
 	{
 		"rhysd/devdocs.vim",
+		disable = false,
 		config = function()
 			vim.cmd([[let g:devdocs_filetype_map = {
     \   'c': 'cpp'}
@@ -661,6 +699,7 @@ lvim.plugins = {
 	},
 	{
 		"nvim-neorg/neorg",
+		disable = false,
 		config = function()
 			require("neorg").setup({
 				-- Tell Neorg what modules to load
@@ -668,18 +707,18 @@ lvim.plugins = {
 					["core.defaults"] = {}, -- Load all the default modules
 					["core.integrations.telescope"] = {},
 					["core.keybinds"] = { -- Configure core.keybinds
-					   config = {
-					      default_keybinds = true, -- Generate the default keybinds
-					      neorg_leader = "<Leader>ze", -- This is the default if unspecified
-					   },
+						config = {
+							default_keybinds = true, -- Generate the default keybinds
+							neorg_leader = "<Leader>ze", -- This is the default if unspecified
+						},
 					},
 					["core.norg.concealer"] = {}, -- Allows for use of icons
 					["core.norg.dirman"] = { -- Manage your directories with Neorg
 						config = {
-                workspaces = {
-                    work = "~/NEORG/work",
-                    home = "~/NEORG/home",
-                }
+							workspaces = {
+								work = "~/NEORG/work",
+								home = "~/NEORG/home",
+							},
 						},
 					},
 					["core.norg.completion"] = {
@@ -690,51 +729,55 @@ lvim.plugins = {
 				},
 			})
 		end,
-		requires = {"nvim-lua/plenary.nvim","nvim-neorg/neorg-telescope"},
+		requires = { "nvim-lua/plenary.nvim", "nvim-neorg/neorg-telescope" },
 	},
-	{ "nvim-neorg/neorg-telescope" },
+	{ "nvim-neorg/neorg-telescope", disable = false },
 	{
 		"mzlogin/vim-markdown-toc",
+		disable = false,
 	},
-	{ "nvim-telescope/telescope-live-grep-raw.nvim" },
-  {"kazhala/close-buffers.nvim"},
- {
-  'chipsenkbeil/distant.nvim',
-  config = function()
-    require('distant').setup {
-      -- Applies Chip's personal settings to every machine you connect to
-      --
-      -- 1. Ensures that distant servers terminate with no connections
-      -- 2. Provides navigation bindings for remote directories
-      -- 3. Provides keybinding to jump into a remote file's parent directory
-      ['*'] = require('distant.settings').chip_default()
-    }
-  end
-},
-{'ckipp01/nvim-jenkinsfile-linter', requires = { "nvim-lua/plenary.nvim" } },
-{'kdheepak/lazygit.nvim'},
-{'rafi/awesome-vim-colorschemes'},
-{'Shatur/neovim-cmake',
-config = function()
-local Path = require('plenary.path')
-require('cmake').setup{
-  cmake_executable = 'cmake', -- CMake executable to run.
-  parameters_file = 'neovim.json', -- JSON file to store information about selected target, run arguments and build type.
-  -- build_dir = tostring(Path:new('{cwd}', 'build', '{os}-{build_type}')), -- Build directory. The expressions `{cwd}`, `{os}` and `{build_type}` will be expanded with the corresponding text values.
-  build_dir = tostring(Path:new('{cwd}', 'build')), -- Build directory. The expressions `{cwd}`, `{os}` and `{build_type}` will be expanded with the corresponding text values.
-  -- samples_path = tostring(script_path:parent():parent():parent() / 'samples'), -- Folder with samples. `samples` folder from the plugin directory is used by default.
-  default_projects_path = tostring(Path:new(vim.loop.os_homedir(), 'Projects')), -- Default folder for creating project.
-  configure_args = { '-D', 'CMAKE_EXPORT_COMPILE_COMMANDS=1' }, -- Default arguments that will be always passed at cmake configure step. By default tells cmake to generate `compile_commands.json`.
-  build_args = {}, -- Default arguments that will be always passed at cmake build step.
-  on_build_output = nil, -- Callback which will be called on every line that is printed during build process. Accepts printed line as argument.
-  quickfix_height = 10, -- Height of the opened quickfix.
-  -- quickfix_only_on_error = true, -- Open quickfix window only if target build failed.
-  dap_configuration = { type = 'cpp', request = 'launch' }, -- DAP configuration. By default configured to work with `lldb-vscode`.
-  dap_open_command = require('dap').repl.open, -- Command to run after starting DAP session. You can set it to `false` if you don't want to open anything or `require('dapui').open` if you are using https://github.com/rcarriga/nvim-dap-ui
-}
- end
-},
-{'Pocco81/TrueZen.nvim'}
+	{ "nvim-telescope/telescope-live-grep-raw.nvim", disable = false },
+	{ "kazhala/close-buffers.nvim", disable = false },
+	{
+		"chipsenkbeil/distant.nvim",
+		disable = false,
+		config = function()
+			require("distant").setup({
+				-- Applies Chip's personal settings to every machine you connect to
+				--
+				-- 1. Ensures that distant servers terminate with no connections
+				-- 2. Provides navigation bindings for remote directories
+				-- 3. Provides keybinding to jump into a remote file's parent directory
+				["*"] = require("distant.settings").chip_default(),
+			})
+		end,
+	},
+	{ "ckipp01/nvim-jenkinsfile-linter", disable = false, requires = { "nvim-lua/plenary.nvim" } },
+	{ "kdheepak/lazygit.nvim", disable = false },
+	{ "rafi/awesome-vim-colorschemes", disable = false },
+	{
+		"Shatur/neovim-cmake",
+		disable = false,
+		config = function()
+			local Path = require("plenary.path")
+			require("cmake").setup({
+				cmake_executable = "cmake", -- CMake executable to run.
+				parameters_file = "neovim.json", -- JSON file to store information about selected target, run arguments and build type.
+				-- build_dir = tostring(Path:new('{cwd}', 'build', '{os}-{build_type}')), -- Build directory. The expressions `{cwd}`, `{os}` and `{build_type}` will be expanded with the corresponding text values.
+				build_dir = tostring(Path:new("{cwd}", "build")), -- Build directory. The expressions `{cwd}`, `{os}` and `{build_type}` will be expanded with the corresponding text values.
+				-- samples_path = tostring(script_path:parent():parent():parent() / 'samples'), -- Folder with samples. `samples` folder from the plugin directory is used by default.
+				default_projects_path = tostring(Path:new(vim.loop.os_homedir(), "Projects")), -- Default folder for creating project.
+				configure_args = { "-D", "CMAKE_EXPORT_COMPILE_COMMANDS=1" }, -- Default arguments that will be always passed at cmake configure step. By default tells cmake to generate `compile_commands.json`.
+				build_args = {}, -- Default arguments that will be always passed at cmake build step.
+				on_build_output = nil, -- Callback which will be called on every line that is printed during build process. Accepts printed line as argument.
+				quickfix_height = 10, -- Height of the opened quickfix.
+				-- quickfix_only_on_error = true, -- Open quickfix window only if target build failed.
+				dap_configuration = { type = "cpp", request = "launch" }, -- DAP configuration. By default configured to work with `lldb-vscode`.
+				dap_open_command = require("dap").repl.open, -- Command to run after starting DAP session. You can set it to `false` if you don't want to open anything or `require('dapui').open` if you are using https://github.com/rcarriga/nvim-dap-ui
+			})
+		end,
+	},
+	{ "Pocco81/TrueZen.nvim", disable = false },
 }
 
 vim.cmd([[
@@ -875,67 +918,66 @@ silent! command! CloseAll call CloseWindo()
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
-  --{"BufWinEnter", "*.lua", "setlocal ts=8 sw=8"}, -- }
+--{"BufWinEnter", "*.lua", "setlocal ts=8 sw=8"}, -- }
 -- check the full default list `:lua print(vim.inspect(lvim.lsp.override))`
 -- vim.list_extend(lvim.lsp.override, { "clangd" })
 -- -- some settings can only passed as commandline flags `clangd --help`
 local clangd_flags = {
-  "--all-scopes-completion",
-  "--suggest-missing-includes",
-  "--background-index",
-  "--pch-storage=disk",
-  "--cross-file-rename",
-  "--log=info",
-  "--completion-style=detailed",
-  "--enable-config", -- clangd 11+ supports reading from .clangd configuration file
-  "--clang-tidy",
-  -- "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
-  -- "--fallback-style=Google",
-  -- "--header-insertion=never",
-  -- "--query-driver=<list-of-white-listed-complers>"
+	"--all-scopes-completion",
+	"--suggest-missing-includes",
+	"--background-index",
+	"--pch-storage=disk",
+	"--cross-file-rename",
+	"--log=info",
+	"--completion-style=detailed",
+	"--enable-config", -- clangd 11+ supports reading from .clangd configuration file
+	"--clang-tidy",
+	-- "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
+	-- "--fallback-style=Google",
+	-- "--header-insertion=never",
+	-- "--query-driver=<list-of-white-listed-complers>"
 }
 
 local clangd_bin = "clangd"
 
 local custom_on_attach = function(client, bufnr)
-  require("lvim.lsp").common_on_attach(client, bufnr)
-  local opts = { noremap = true, silent = true }
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
+	require("lvim.lsp").common_on_attach(client, bufnr)
+	local opts = { noremap = true, silent = true }
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
 end
 
 local opts = {
-  cmd = { clangd_bin, unpack(clangd_flags) },
-  on_attach = custom_on_attach,
+	cmd = { clangd_bin, unpack(clangd_flags) },
+	on_attach = custom_on_attach,
 }
 
 require("lvim.lsp.manager").setup("clangd", opts)
 
-
-local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+local parser_configs = require("nvim-treesitter.parsers").get_parser_configs()
 
 -- These two are optional and provide syntax highlighting
 -- for Neorg tables and the @document.meta tag
 parser_configs.norg_meta = {
-    install_info = {
-        url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
-        files = { "src/parser.c" },
-        branch = "main"
-    },
+	install_info = {
+		url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
+		files = { "src/parser.c" },
+		branch = "main",
+	},
 }
 
 parser_configs.norg_table = {
-    install_info = {
-        url = "https://github.com/nvim-neorg/tree-sitter-norg-table",
-        files = { "src/parser.c" },
-        branch = "main"
-    },
+	install_info = {
+		url = "https://github.com/nvim-neorg/tree-sitter-norg-table",
+		files = { "src/parser.c" },
+		branch = "main",
+	},
 }
-require('nvim-treesitter.configs').setup {
-    ensure_installed = { "norg", "norg_meta", "norg_table"},
-    highlight = { -- Be sure to enable highlights if you haven't!
-        enable = true,
-    }
-}
+require("nvim-treesitter.configs").setup({
+	ensure_installed = { "norg", "norg_meta", "norg_table" },
+	highlight = { -- Be sure to enable highlights if you haven't!
+		enable = true,
+	},
+})
 -- require'neuron'.setup {
 --     virtual_titles = true,
 --     mappings = true,
@@ -943,57 +985,55 @@ require('nvim-treesitter.configs').setup {
 --     neuron_dir = "~/neuron", -- the directory of all of your notes, expanded by default (currently supports only one directory for notes, find a way to detect neuron.dhall to use any directory)
 --     leader = "gz", -- the leader key to for all mappings, remember with 'go zettel'
 -- }
-require("nvim-lsp-installer").settings {
-   pip = {
-      install_args = { "--proxy", "http://proxy.onera:80" },
-   },
-}
+require("nvim-lsp-installer").settings({
+	pip = {
+		install_args = { "--proxy", "http://proxy.onera:80" },
+	},
+})
 
-local dap = require('dap')
+local dap = require("dap")
 dap.adapters.lldb = {
-  type = 'executable',
-  command = 'D:/ftarroux/scoop/apps/llvm/14.0.0/bin/lldb-vscode.exe', -- adjust as needed
-  name = "lldb"
+	type = "executable",
+	command = "D:/ftarroux/scoop/apps/llvm/14.0.0/bin/lldb-vscode.exe", -- adjust as needed
+	name = "lldb",
 }
 
 dap.configurations.cpp = {
-  {
-    name = "Launch",
-    type = "lldb",
-    request = "launch",
-    program = function()
-      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-    end,
-    cwd = '${workspaceFolder}',
-    stopOnEntry = true,
-    args = {},
+	{
+		name = "Launch",
+		type = "lldb",
+		request = "launch",
+		program = function()
+			return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+		end,
+		cwd = "${workspaceFolder}",
+		stopOnEntry = true,
+		args = {},
 
-    -- 💀
-    -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
-    --
-    --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
-    --
-    -- Otherwise you might get the following error:
-    --
-    --    Error on launch: Failed to attach to the target process
-    --
-    -- But you should be aware of the implications:
-    -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
+		-- 💀
+		-- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
+		--
+		--    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+		--
+		-- Otherwise you might get the following error:
+		--
+		--    Error on launch: Failed to attach to the target process
+		--
+		-- But you should be aware of the implications:
+		-- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
 
-    runInTerminal = false,
+		runInTerminal = false,
 
-    -- 💀
-    -- If you use `runInTerminal = true` and resize the terminal window,
-    -- lldb-vscode will receive a `SIGWINCH` signal which can cause problems
-    -- To avoid that uncomment the following option
-    -- See https://github.com/mfussenegger/nvim-dap/issues/236#issuecomment-1066306073
-    postRunCommands = {'process handle -p true -s false -n false SIGWINCH'}
-  },
+		-- 💀
+		-- If you use `runInTerminal = true` and resize the terminal window,
+		-- lldb-vscode will receive a `SIGWINCH` signal which can cause problems
+		-- To avoid that uncomment the following option
+		-- See https://github.com/mfussenegger/nvim-dap/issues/236#issuecomment-1066306073
+		postRunCommands = { "process handle -p true -s false -n false SIGWINCH" },
+	},
 }
 
-
 -- If you want to use this for rust and c, add something like this:
-
 
 -- local dap = require('dap')
 -- dap.adapters.cppdbg = {
@@ -1098,7 +1138,6 @@ dap.configurations.rust = dap.configurations.cpp
 -- -- filetypes  = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" },
 -- --   language = "FR-fr"
 
-
 -- -- }
 -- require("lvim.lsp.manager").setup("ltex",ltex_setup)
 
@@ -1111,12 +1150,7 @@ dap.configurations.rust = dap.configurations.cpp
 
 -- }
 
-
-
 vim.cmd([[autocmd User TelescopePreviewerLoaded setlocal wrap]])
-
-
-
 
 -- local Terminal  = require('toggleterm.terminal').Terminal
 -- local compile_ninja_intel= Terminal:new({ cmd = "frintel && Cmake -S . -B build -G Ninja ", hidden = false})
