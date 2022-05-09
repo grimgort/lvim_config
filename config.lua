@@ -128,15 +128,17 @@ lvim.format_on_save = false
 lvim.colorscheme = "onedarker"
 vim.opt.ff = "unix"
 vim.opt.wrap = true
-vim.opt.guifont = "JetBrains Mono:h14"
+vim.o.guifont = "JetBrains Mono:h14"
+-- vim.opt.guifont = { "JetBrains Mono", "h12" }
 vim.opt.fileencoding = "utf-8" -- the encoding written to a file
 vim.opt.colorcolumn = "99999"
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 20
 vim.opt.swapfile = true
+vim.opt.spell = false
 
-vim.api.nvim_command "set nospell"
+-- vim.api.nvim_command "set nospell"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
@@ -286,21 +288,20 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require("lvim.lsp.null-ls.formatters")
--- formatters.setup({{commands = "cmake_format", filetype = {"cmake"}},{ command = "black", filetypes = { "python" } },{ command = "stylua", filetypes = { "lua" } },})
--- formatters.setup({
--- 	{ command = "black", filetypes = { "python" } },
--- 	{ command = "stylua", filetypes = { "lua" } },
--- 	-- { command = "isort", filetypes = { "python" } },
--- 	-- {
--- 	--   -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
--- 	--   command = "prettier",
--- 	--   ---@usage arguments to pass to the formatter
--- 	--   -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
--- 	--   extra_args = { "--print-with", "100" },
--- 	--   ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
--- 	--   filetypes = { "typescript", "typescriptreact" },
--- 	-- },
--- })
+formatters.setup({
+	{ command = "black", filetypes = { "python" } },
+	{ command = "stylua", filetypes = { "lua" } },
+	-- { command = "isort", filetypes = { "python" } },
+	-- {
+	--   -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+	--   command = "prettier",
+	--   ---@usage arguments to pass to the formatter
+	--   -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+	--   extra_args = { "--print-with", "100" },
+	--   ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+	--   filetypes = { "typescript", "typescriptreact" },
+	-- },
+})
 
 -- -- set additional linters
 -- local linters = require "lvim.lsp.null-ls.linters"
@@ -364,6 +365,7 @@ lvim.plugins = {
 
 	{
 		"kevinhwang91/nvim-bqf",
+    tag="*",
 		event = { "BufRead", "BufNew" },
 		config = function()
 			require("bqf").setup({
@@ -397,6 +399,7 @@ lvim.plugins = {
 	},
 	{
 		"andymass/vim-matchup",
+    tag="*",
 		event = "CursorMoved",
 		config = function()
 			vim.g.matchup_matchparen_offscreen = { method = "popup" }
@@ -417,6 +420,7 @@ lvim.plugins = {
 	-- },
 	{
 		"tpope/vim-fugitive",
+    tag="*",
 		-- cmd = {
 		-- 	"G",
 		-- 	"Git",
@@ -478,13 +482,13 @@ lvim.plugins = {
 			})
 		end,
 	},
-	{
-		"ahmedkhalf/lsp-rooter.nvim",
-		event = "BufRead",
-		config = function()
-			require("lsp-rooter").setup()
-		end,
-	},
+	-- {
+	-- 	"ahmedkhalf/lsp-rooter.nvim",
+	-- 	event = "BufRead",
+	-- 	config = function()
+	-- 		require("lsp-rooter").setup()
+	-- 	end,
+	-- },
 	{
 		"ray-x/lsp_signature.nvim",
 		event = "BufRead",
@@ -1088,25 +1092,37 @@ dap.configurations.cpp = {
 dap.configurations.c = dap.configurations.cpp
 dap.configurations.rust = dap.configurations.cpp
 
-vim.list_extend(lvim.lsp.override, { "ltex" })
--- local ltex_setup= {
---   cmd = "D:/ftarroux/AppData/Roaming/nvim-data/lsp_servers/ltex/ltex-ls/bin/ltex-ls.bat",
--- filetypes  = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" },
---   language = "FR-fr"
+-- vim.list_extend(lvim.lsp.override, { "ltex" })
+-- -- local ltex_setup= {
+-- --   cmd = "D:/ftarroux/AppData/Roaming/nvim-data/lsp_servers/ltex/ltex-ls/bin/ltex-ls.bat",
+-- -- filetypes  = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" },
+-- --   language = "FR-fr"
 
 
--- }
+-- -- }
 -- require("lvim.lsp.manager").setup("ltex",ltex_setup)
 
-require'lspconfig'.ltex.setup{
-  -- cmd = "D:/ftarroux/AppData/Roaming/nvim-data/lsp_servers/ltex/ltex-ls/bin/ltex-ls.bat",
-filetypes  = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" },
-  -- language = "auto"
-  -- language = "fr"
--- get_langage_id="auto"
+-- require'lspconfig'.ltex.setup{
+--   -- cmd = "D:/ftarroux/AppData/Roaming/nvim-data/lsp_servers/ltex/ltex-ls/bin/ltex-ls.bat",
+-- filetypes  = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex" },
+--   -- language = "auto"
+--   language = "fr"
+-- -- get_langage_id="auto"
 
-}
+-- }
 
 
 
 vim.cmd([[autocmd User TelescopePreviewerLoaded setlocal wrap]])
+
+
+
+
+-- local Terminal  = require('toggleterm.terminal').Terminal
+-- local compile_ninja_intel= Terminal:new({ cmd = "frintel && Cmake -S . -B build -G Ninja ", hidden = false})
+
+-- function _compile_ninja_intel()
+--   compile_ninja_intel:toggle()
+-- end
+
+-- vim.api.nvim_set_keymap("n", "<leader>zv", "<cmd>lua _compile_ninja_intel()<CR>", {noremap = true, silent = true})
