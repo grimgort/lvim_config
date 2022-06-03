@@ -120,6 +120,10 @@ lvim.keys.normal_mode["<leader>znb"] = ":AsyncRun cpplint % <cr>"
 lvim.keys.normal_mode["<leader>zz"] = ":TZFocus<cr>"
 lvim.keys.normal_mode["<leader>lm"] = ":SymbolsOutline<cr>"
 
+-- Moving the cursor through long soft-wrapped lines
+lvim.keys.normal_mode["j"] = "gj"
+lvim.keys.normal_mode["k"] = "gk"
+
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = false
@@ -136,7 +140,9 @@ vim.opt.foldlevel = 20
 vim.opt.swapfile = true
 vim.opt.spell = false
 vim.opt.smartindent = true
-vim.opt.autoindent = true
+-- vim.opt.autoindent = true
+-- vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
 
 -- vim.api.nvim_command "set nospell"
 
@@ -152,8 +158,8 @@ lvim.keys.normal_mode["<leader>ss"] = ":Telescope grep_string<cr>"
 -- lvim.keys.normal_mode["<F6>"] = ":AsyncRun cmake --build build --config Release<cr>"
 lvim.keys.normal_mode["<F7>"] = ":CMake build_all -j4<cr>"
 lvim.keys.normal_mode["<F6>"] = ":CMake build_all --config Release -j4<cr>"
--- lvim.keys.normal_mode["<F5>"] = ":AsyncRun pwsh -Command \"frintelcompile\"<cr>"
-lvim.keys.normal_mode["<F5>"] = ':AsyncRun pwsh -Command "frvisualcompile"<cr>'
+lvim.keys.normal_mode["<F5>"] = ":AsyncRun pwsh -Command \"frintelcompile\"<cr>"
+-- lvim.keys.normal_mode["<F5>"] = ':AsyncRun pwsh -Command "frvisualcompile"<cr>'
 -- lvim.keys.normal_mode["²"] = ":CloseAll<cr>"
 
 -- unmap a default keymapping
@@ -242,6 +248,7 @@ lvim.builtin.which_key.mappings["g"] = {
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.terminal.shell = "pwsh"
+-- lvim.builtin.terminal.shell = "powershell"
 lvim.builtin.terminal.hide_numbers = false
 -- lvim.builtin.terminal.insert_mappings=false
 lvim.builtin.terminal.start_in_insert = true
@@ -462,6 +469,22 @@ lvim.plugins = {
 	{
 		"p00f/nvim-ts-rainbow",
 		disable = false,
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				highlight = {
+					-- ...
+				},
+				-- ...
+				rainbow = {
+					enable = true,
+					-- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
+					extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+					max_file_lines = nil, -- Do not enable for files with more than n lines, int
+					-- colors = {}, -- table of hex strings
+					-- termcolors = {} -- table of colour name strings
+				},
+			})
+		end,
 	},
 	-- {
 	-- 	"nvim-telescope/telescope-fzy-native.nvim",
@@ -530,17 +553,15 @@ lvim.plugins = {
 		"lukas-reineke/indent-blankline.nvim",
 		disable = false,
 		event = "BufRead",
-		setup = function()
+		config = function()
 			vim.g.indentLine_enabled = 1
 			vim.g.indent_blankline_char = "▏"
 			vim.g.indent_blankline_filetype_exclude = { "help", "terminal", "dashboard" }
 			vim.g.indent_blankline_buftype_exclude = { "terminal" }
 			vim.g.indent_blankline_show_trailing_blankline_indent = false
 			vim.g.indent_blankline_show_first_indent_level = false
-			require("indent_blankline").setup({
-				show_current_context = true,
-				show_current_context_start = true,
-			})
+			vim.g.indent_blankline_show_current_context = true
+			vim.g.indent_blankline_show_current_context_start = true
 		end,
 	},
 	{
