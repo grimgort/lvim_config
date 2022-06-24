@@ -1,3 +1,47 @@
+-- lvim.builtin.alpha=false
+-- lvim.builtin.autopairs=false
+-- lvim.builtin.bufferline=false
+-- lvim.builtin.cmp=false
+-- lvim.builtin.comment=false
+-- lvim.builtin.dap=false
+-- lvim.builtin.gitsigns=false
+-- lvim.builtin.dashboard=false
+-- lvim.builtin.lualine=false
+-- lvim.builtin.notify=false
+-- lvim.builtin.nvimtree=false
+-- lvim.builtin.project=false
+-- lvim.builtin.telescope=false
+-- lvim.builtin.terminal=false
+-- lvim.builtin.treesitter=false
+-- lvim.builtin.which_key=false
+
+--[[
+ THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+ `lvim` is the global options object
+]]
+
+-- Enable powershell as your default shell
+vim.opt.shell = "pwsh.exe -NoLogo"
+vim.opt.shellcmdflag =
+	"-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
+vim.cmd([[
+		let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+		let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+		set shellquote= shellxquote=
+  ]])
+
+-- Set a compatible clipboard manager
+vim.g.clipboard = {
+	copy = {
+		["+"] = "win32yank.exe -i --crlf",
+		["*"] = "win32yank.exe -i --crlf",
+	},
+	paste = {
+		["+"] = "win32yank.exe -o --lf",
+		["*"] = "win32yank.exe -o --lf",
+	},
+}
+
 require("cmp").setup.cmdline("/", {
 	sources = {
 		{ name = "buffer" },
@@ -8,6 +52,9 @@ require("cmp").setup.cmdline(":", {
 		{ name = "cmdline" },
 	},
 })
+
+
+
 vim.api.nvim_command("let g:asyncrun_open = 8")
 lvim.builtin.nvimtree.respect_buf_cwd = 0
 lvim.builtin.nvimtree.setup.update_cwd = false
@@ -78,6 +125,7 @@ an executable
 --   }
 local opt = { noremap = true, silent = true }
 
+-- lvim.keys.normal_mode["<S-Insert>"] = "<C-R>+"
 lvim.keys.normal_mode["<leader>gvf"] = ":DiffviewFileHistory<cr>"
 lvim.keys.normal_mode["<leader>gvo"] = ":DiffviewOpen<cr>"
 lvim.keys.normal_mode["<leader>zd"] = ":DevDocsUnderCursor<cr>"
@@ -119,7 +167,18 @@ lvim.keys.normal_mode["<leader>znb"] = ":AsyncRun cpplint % <cr>"
 
 lvim.keys.normal_mode["<leader>zz"] = ":TZFocus<cr>"
 lvim.keys.normal_mode["<leader>lm"] = ":SymbolsOutline<cr>"
+lvim.keys.normal_mode["<C-:>"] = ":Telescope commands<cr>"
+lvim.keys.normal_mode["<C-;>"] = ":Telescope keymaps<cr>"
 
+-- lvim.builtin.which_key.mappings = {
+-- 	["bl"] = {"<cmd>bnext<cr>",	"bnext"},
+-- 	["bh"] = {"<cmd>bprevious<cr>",	"bprevious"},
+-- 	["bb"] = {"<cmd>BufferKill<cr>",	"BufferKill"},
+-- }
+-- lvim.builtin.which_key.mappings["bh"] = {
+-- 	"<cmd>bprevious<cr>",
+-- 	"bprevious",
+-- }
 -- Moving the cursor through long soft-wrapped lines
 lvim.keys.normal_mode["j"] = "gj"
 lvim.keys.normal_mode["k"] = "gk"
@@ -128,9 +187,10 @@ lvim.keys.normal_mode["k"] = "gk"
 lvim.log.level = "warn"
 lvim.format_on_save = false
 lvim.colorscheme = "onedarker"
-vim.opt.ff = "unix"
+-- vim.opt.ff = "unix"
 vim.opt.wrap = true
 vim.o.guifont = "JetBrains Mono:h14"
+-- vim.o.guifont = "JetBrains Mono"
 -- vim.opt.guifont = { "JetBrains Mono", "h12" }
 vim.opt.fileencoding = "utf-8" -- the encoding written to a file
 vim.opt.colorcolumn = "99999"
@@ -143,7 +203,7 @@ vim.opt.smartindent = true
 -- vim.opt.autoindent = true
 -- vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
-
+vim.g.python3_host_prog = "D:/ftarroux/Logiciel/python39/python.exe"
 -- vim.api.nvim_command "set nospell"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
@@ -158,7 +218,7 @@ lvim.keys.normal_mode["<leader>ss"] = ":Telescope grep_string<cr>"
 -- lvim.keys.normal_mode["<F6>"] = ":AsyncRun cmake --build build --config Release<cr>"
 lvim.keys.normal_mode["<F7>"] = ":CMake build_all -j4<cr>"
 lvim.keys.normal_mode["<F6>"] = ":CMake build_all --config Release -j4<cr>"
-lvim.keys.normal_mode["<F5>"] = ":AsyncRun pwsh -Command \"frintelcompile\"<cr>"
+lvim.keys.normal_mode["<F5>"] = ':AsyncRun pwsh -Command "frintelcompile"<cr>'
 -- lvim.keys.normal_mode["<F5>"] = ':AsyncRun pwsh -Command "frvisualcompile"<cr>'
 -- lvim.keys.normal_mode["²"] = ":CloseAll<cr>"
 
@@ -185,7 +245,8 @@ lvim.builtin.telescope.defaults.mappings = {
 		["<C-k>"] = actions.move_selection_previous,
 	},
 }
-lvim.builtin.telescope.defaults.wrap_result = true
+lvim.builtin.telescope.defaults.wrap_results = true
+vim.cmd([[autocmd User TelescopePreviewerLoaded setlocal wrap]])
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["t"] = {
@@ -197,16 +258,23 @@ lvim.builtin.which_key.mappings["t"] = {
 	l = { "<cmd>Trouble loclist<cr>", "LocationList" },
 	w = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnostics" },
 }
-
--- lvim.builtin.terminal.execs ={
---       { "lazygit", "<leader>gg", "LazyGit o", "float" },
---       { "lazygit", "<c-\\><c-g>", "LazyGit", "float" },
+lvim.builtin.telescope.on_config_done = function(telescope)
+	pcall(telescope.load_extension, "project")
+	pcall(telescope.load_extension, "neorg-telescope")
+	pcall(telescope.load_extension, "live-grep-raw")
+	-- pcall(telescope.load_extension, "frecency")
+	-- pcall(telescope.load_extension, "neoclip")
+	-- any other extensions loading
+end
+-- lvim.builtin.terminal.execs = {
+-- 	{ "lazygit", "<leader>gg", "LazyGit o", "float" },
+-- 	{ "lazygit", "<c-\\><c-g>", "LazyGit", "float" },
 -- }
--- local Terminal  = require('toggleterm.terminal').Terminal
+-- local Terminal = require("toggleterm.terminal").Terminal
 -- local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })
 
 -- local function _lazygit_toggle()
---   lazygit:toggle()
+-- 	lazygit:toggle()
 -- end
 
 lvim.builtin.which_key.mappings["g"] = {
@@ -234,7 +302,7 @@ lvim.builtin.which_key.mappings["g"] = {
 		"<cmd>Gitsigns diffthis HEAD<cr>",
 		"Git Diff",
 	},
-	g = { "<cmd>LazyGit<cr>", "LazyGit" },
+	-- g = { "<cmd>LazyGit<cr>", "LazyGit" },
 	M = {
 		":!git branch --merged | Select-String -Pattern '^(?!.*(master|.*-stable)).*$' | ForEach-Object { git branch -d $_.ToString().Trim() } <cr>",
 		"clean merged branch",
@@ -247,7 +315,7 @@ lvim.builtin.which_key.mappings["g"] = {
 -- lvim.builtin.dashboard.active = true
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
-lvim.builtin.terminal.shell = "pwsh"
+lvim.builtin.terminal.shell = "pwsh -nologo"
 -- lvim.builtin.terminal.shell = "powershell"
 lvim.builtin.terminal.hide_numbers = false
 -- lvim.builtin.terminal.insert_mappings=false
@@ -257,7 +325,16 @@ lvim.builtin.telescope.defaults.layout_config.width = 0.99
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
 lvim.builtin.dap.active = true
-
+lvim.builtin.telescope.pickers = {
+	find_files = {
+		hidden = true,
+	},
+	live_grep = {
+		--@usage don't include the filename in the search results
+		only_sort_text = true,
+	},
+	sort_lastused = true,
+}
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
 	"bash",
@@ -305,6 +382,7 @@ formatters.setup({
 	{ command = "black", filetypes = { "python" } },
 	{ command = "stylua", filetypes = { "lua" } },
 	{ command = "fprettify", filetypes = { "fortran" } },
+	{ command = "clang-format", filetypes = { "javascript", "json" } },
 	-- { command = "isort", filetypes = { "python" } },
 	-- {
 	--   -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
@@ -351,32 +429,33 @@ formatters.setup({
 -- })
 lvim.plugins = {
 	{ "folke/tokyonight.nvim", disable = false },
-	{
-		"ggandor/lightspeed.nvim",
-		disable = false,
-		config = function()
-			require("lightspeed").setup({
-				ignore_case = true,
-				-- exit_after_idle_msecs = { unlabeled = 1000, labeled = nil },
-				-- --- s/x ---
-				-- jump_to_unique_chars = { safety_timeout = 400 },
-				-- match_only_the_start_of_same_char_seqs = true,
-				-- force_beacons_into_match_width = false,
-				-- -- Display characters in a custom way in the highlighted matches.
-				-- substitute_chars = { ['\r'] = '¬', },
-				-- -- Leaving the appropriate list empty effectively disables "smart" mode,
-				-- -- and forces auto-jump to be on or off.
-				-- safe_labels = { . . . },
-				-- labels = { . . . },
-				-- These keys are captured directly by the plugin at runtime.
-				special_keys = {
-					next_match_group = "<space>",
-					prev_match_group = "<tab>",
-				},
-			})
-		end,
-		event = "BufRead",
-	},
+	-- {
+	-- 	"ggandor/lightspeed.nvim",
+	-- 	disable = false,
+	-- 	config = function()
+	-- 		require("lightspeed").setup({
+	-- 			ignore_case = true,
+	-- 			-- exit_after_idle_msecs = { unlabeled = 1000, labeled = nil },
+	-- 			-- --- s/x ---
+	-- 			-- jump_to_unique_chars = { safety_timeout = 400 },
+	-- 			-- match_only_the_start_of_same_char_seqs = true,
+	-- 			-- force_beacons_into_match_width = false,
+	-- 			-- -- Display characters in a custom way in the highlighted matches.
+	-- 			-- substitute_chars = { ['\r'] = '¬', },
+	-- 			-- -- Leaving the appropriate list empty effectively disables "smart" mode,
+	-- 			-- -- and forces auto-jump to be on or off.
+	-- 			-- safe_labels = { . . . },
+	-- 			-- labels = { . . . },
+	-- 			-- These keys are captured directly by the plugin at runtime.
+	--  jump_to_unique_chars = false,
+	-- 			special_keys = {
+	-- 				next_match_group = "<space>",
+	-- 				prev_match_group = "<tab>",
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- 	event = "BufRead",
+	-- },
 
 	{
 		"kevinhwang91/nvim-bqf",
@@ -774,7 +853,7 @@ lvim.plugins = {
 		end,
 	},
 	{ "ckipp01/nvim-jenkinsfile-linter", disable = false, requires = { "nvim-lua/plenary.nvim" } },
-	{ "kdheepak/lazygit.nvim", disable = false },
+	-- { "kdheepak/lazygit.nvim", disable = false },
 	{ "rafi/awesome-vim-colorschemes", disable = false },
 	{
 		"Shatur/neovim-cmake",
@@ -799,6 +878,51 @@ lvim.plugins = {
 		end,
 	},
 	{ "Pocco81/TrueZen.nvim", disable = false },
+	-- not work with lvim
+	{
+		"glacambre/firenvim",
+		run = function()
+			vim.fn["firenvim#install"](0)
+		end,
+	},
+	{
+		"phaazon/hop.nvim",
+		event = "BufRead",
+		config = function()
+			require("hop").setup()
+			vim.api.nvim_set_keymap("n", "s", ":HopChar1<cr>", { silent = true })
+			vim.api.nvim_set_keymap("n", "S", ":HopWord<cr>", { silent = true })
+		end,
+	},
+	-- {
+	-- "wellle/context.vim",
+	--   },
+	{
+		"romgrk/nvim-treesitter-context",
+		config = function()
+			require("treesitter-context").setup({
+				enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+				throttle = true, -- Throttles plugin updates (may improve performance)
+				max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+				patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+					-- For all filetypes
+					-- Note that setting an entry here replaces all other patterns for this entry.
+					-- By setting the 'default' entry below, you can control which nodes you want to
+					-- appear in the context window.
+					default = {
+						"class",
+						"function",
+						"method",
+						"for",
+						"while",
+						"if",
+						"switch",
+						"case",
+					},
+				},
+			})
+		end,
+	},
 }
 
 vim.cmd([[
@@ -1171,7 +1295,6 @@ dap.configurations.rust = dap.configurations.cpp
 
 -- }
 
-vim.cmd([[autocmd User TelescopePreviewerLoaded setlocal wrap]])
 
 -- local Terminal  = require('toggleterm.terminal').Terminal
 -- local compile_ninja_intel= Terminal:new({ cmd = "frintel && Cmake -S . -B build -G Ninja ", hidden = false})
