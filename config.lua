@@ -19,28 +19,31 @@
  THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
  `lvim` is the global options object
 ]]
-
--- Enable powershell as your default shell
-vim.opt.shell = "pwsh.exe -NoLogo"
-vim.opt.shellcmdflag =
-	"-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
 vim.cmd([[
-		let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-		let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-		set shellquote= shellxquote=
-  ]])
+nnoremap <silent>ç <Cmd>exe v:count1 . "ToggleTerm"<CR>
+tnoremap <silent>ç <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
+]])
+-- Enable powershell as your default shell
+-- vim.opt.shell = "pwsh.exe -NoLogo"
+-- vim.opt.shellcmdflag =
+-- 	"-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
+-- vim.cmd([[
+-- 		let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+-- 		let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+-- 		set shellquote= shellxquote=
+--   ]])
 
--- Set a compatible clipboard manager
-vim.g.clipboard = {
-	copy = {
-		["+"] = "win32yank.exe -i --crlf",
-		["*"] = "win32yank.exe -i --crlf",
-	},
-	paste = {
-		["+"] = "win32yank.exe -o --lf",
-		["*"] = "win32yank.exe -o --lf",
-	},
-}
+-- -- Set a compatible clipboard manager
+-- vim.g.clipboard = {
+-- 	copy = {
+-- 		["+"] = "win32yank.exe -i --crlf",
+-- 		["*"] = "win32yank.exe -i --crlf",
+-- 	},
+-- 	paste = {
+-- 		["+"] = "win32yank.exe -o --lf",
+-- 		["*"] = "win32yank.exe -o --lf",
+-- 	},
+-- }
 
 require("cmp").setup.cmdline("/", {
 	sources = {
@@ -52,8 +55,6 @@ require("cmp").setup.cmdline(":", {
 		{ name = "cmdline" },
 	},
 })
-
-
 
 vim.api.nvim_command("let g:asyncrun_open = 8")
 lvim.builtin.nvimtree.respect_buf_cwd = 0
@@ -124,7 +125,43 @@ an executable
 -- v = {":translatew<cr>"},
 --   }
 local opt = { noremap = true, silent = true }
+-- vim.api.nvim_set_keymap("n", "&", "1", {})
+-- vim.api.nvim_set_keymap("i", "&", "1", {})
 
+-- vim.api.nvim_set_keymap("n", "<S-1>", "&", {})
+-- vim.api.nvim_set_keymap("i", "<S-1>", "&", {})
+
+-- vim.api.nvim_set_keymap("n", "é", "2", {})
+-- vim.api.nvim_set_keymap("i", "é", "2", {})
+
+-- vim.api.nvim_set_keymap("n", '"', "3", {})
+-- vim.api.nvim_set_keymap("i", '"', "3", {})
+
+-- vim.api.nvim_set_keymap("n", "'", "4", {})
+-- vim.api.nvim_set_keymap("i", "'", "4", {})
+
+-- vim.api.nvim_set_keymap("n", "(", "5", {})
+-- vim.api.nvim_set_keymap("i", "(", "5", {})
+
+-- vim.api.nvim_set_keymap("n", "-", "6", {})
+-- vim.api.nvim_set_keymap("i", "-", "6", {})
+
+-- vim.api.nvim_set_keymap("n", "è", "7", {})
+-- vim.api.nvim_set_keymap("i", "è", "7", {})
+
+-- vim.api.nvim_set_keymap("n", "_", "8", {})
+-- vim.api.nvim_set_keymap("i", "_", "8", {})
+
+-- vim.api.nvim_set_keymap("n", "ç", "9", {})
+-- vim.api.nvim_set_keymap("i", "ç", "9", {})
+
+-- vim.api.nvim_set_keymap("n", "à", "0", {})
+-- vim.api.nvim_set_keymap("i", "à", "0", {})
+
+vim.api.nvim_set_keymap("v", "*", [[y/\V<C-r>=escape(@",'/\')<CR><CR>]], {})
+vim.api.nvim_set_keymap("n", "<C-!>", ":%s/", opt)
+vim.api.nvim_set_keymap("v", "<C-!>", ":s/", opt)
+vim.api.nvim_set_keymap("n", "<C-a>", "GVgg", opt)
 -- lvim.keys.normal_mode["<S-Insert>"] = "<C-R>+"
 lvim.keys.normal_mode["<leader>gvf"] = ":DiffviewFileHistory<cr>"
 lvim.keys.normal_mode["<leader>gvo"] = ":DiffviewOpen<cr>"
@@ -165,7 +202,8 @@ lvim.keys.visual_mode["<leader>zss"] = ":lua require('spectre').open_visual()<CR
 lvim.keys.normal_mode["<leader>zsp"] = ":lua require('spectre').open_file_search()<cr>"
 lvim.keys.normal_mode["<leader>znb"] = ":AsyncRun cpplint % <cr>"
 
-lvim.keys.normal_mode["<leader>zz"] = ":TZFocus<cr>"
+-- lvim.keys.normal_mode["<leader>zz"] = ":TZFocus<cr>"
+lvim.keys.normal_mode["<leader>zz"] = ":only<cr>"
 lvim.keys.normal_mode["<leader>lm"] = ":SymbolsOutline<cr>"
 lvim.keys.normal_mode["<C-:>"] = ":Telescope commands<cr>"
 lvim.keys.normal_mode["<C-;>"] = ":Telescope keymaps<cr>"
@@ -186,6 +224,7 @@ lvim.keys.normal_mode["k"] = "gk"
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = false
+-- lvim.format_on_save = true
 lvim.colorscheme = "onedarker"
 -- vim.opt.ff = "unix"
 vim.opt.wrap = true
@@ -197,21 +236,24 @@ vim.opt.colorcolumn = "99999"
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 20
-vim.opt.swapfile = true
+vim.opt.swapfile = false
 vim.opt.spell = false
 vim.opt.smartindent = true
 -- vim.opt.autoindent = true
 -- vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.g.python3_host_prog = "D:/ftarroux/Logiciel/python39/python.exe"
+vim.api.nvim_command("set undofile")
+vim.api.nvim_command("set undodir=~/.vim/undo")
 -- vim.api.nvim_command "set nospell"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-lvim.keys.normal_mode["<leader>sy"] = ':lua require("telescope").extensions.live_grep_raw.live_grep_raw()<cr>'
+lvim.keys.normal_mode["<leader>sy"] = ':lua require("telescope").extensions.live_grep_args.live_grep_args()<cr>'
 lvim.keys.normal_mode["<leader>ss"] = ":Telescope grep_string<cr>"
+lvim.keys.normal_mode["<F4>"] = ":MundoToggle<cr>"
 
 -- lvim.keys.normal_mode["<leader>dd"] = ":TranslateW<cr>"
 -- lvim.keys.normal_mode["<F7>"] = ":AsyncRun cmake --build build<cr>"
@@ -261,7 +303,7 @@ lvim.builtin.which_key.mappings["t"] = {
 lvim.builtin.telescope.on_config_done = function(telescope)
 	pcall(telescope.load_extension, "project")
 	pcall(telescope.load_extension, "neorg-telescope")
-	pcall(telescope.load_extension, "live-grep-raw")
+	pcall(telescope.load_extension, "live-grep-args")
 	-- pcall(telescope.load_extension, "frecency")
 	-- pcall(telescope.load_extension, "neoclip")
 	-- any other extensions loading
@@ -276,7 +318,12 @@ end
 -- local function _lazygit_toggle()
 -- 	lazygit:toggle()
 -- end
-
+lvim.builtin.which_key.mappings["S"] = {
+	name = "Session",
+	c = { "<cmd>lua require('persistence').load()<cr>", "Restore last session for current dir" },
+	l = { "<cmd>lua require('persistence').load({ last = true })<cr>", "Restore last session" },
+	Q = { "<cmd>lua require('persistence').stop()<cr>", "Quit without saving session" },
+}
 lvim.builtin.which_key.mappings["g"] = {
 	name = "Git",
 	j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
@@ -316,6 +363,8 @@ lvim.builtin.which_key.mappings["g"] = {
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.terminal.shell = "pwsh -nologo"
+-- lvim.builtin.terminal.persist_size=true
+-- lvim.builtin.terminal.size=50
 -- lvim.builtin.terminal.shell = "powershell"
 lvim.builtin.terminal.hide_numbers = false
 -- lvim.builtin.terminal.insert_mappings=false
@@ -429,33 +478,34 @@ formatters.setup({
 -- })
 lvim.plugins = {
 	{ "folke/tokyonight.nvim", disable = false },
-	-- {
-	-- 	"ggandor/lightspeed.nvim",
-	-- 	disable = false,
-	-- 	config = function()
-	-- 		require("lightspeed").setup({
-	-- 			ignore_case = true,
-	-- 			-- exit_after_idle_msecs = { unlabeled = 1000, labeled = nil },
-	-- 			-- --- s/x ---
-	-- 			-- jump_to_unique_chars = { safety_timeout = 400 },
-	-- 			-- match_only_the_start_of_same_char_seqs = true,
-	-- 			-- force_beacons_into_match_width = false,
-	-- 			-- -- Display characters in a custom way in the highlighted matches.
-	-- 			-- substitute_chars = { ['\r'] = '¬', },
-	-- 			-- -- Leaving the appropriate list empty effectively disables "smart" mode,
-	-- 			-- -- and forces auto-jump to be on or off.
-	-- 			-- safe_labels = { . . . },
-	-- 			-- labels = { . . . },
-	-- 			-- These keys are captured directly by the plugin at runtime.
-	--  jump_to_unique_chars = false,
-	-- 			special_keys = {
-	-- 				next_match_group = "<space>",
-	-- 				prev_match_group = "<tab>",
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- 	event = "BufRead",
-	-- },
+	{
+		"ggandor/lightspeed.nvim",
+		disable = false,
+		config = function()
+			require("lightspeed").setup({
+				ignore_case = true,
+				-- exit_after_idle_msecs = { unlabeled = 1000, labeled = nil },
+				-- --- s/x ---
+				-- jump_to_unique_chars = { safety_timeout = 400 },
+				-- match_only_the_start_of_same_char_seqs = true,
+				-- force_beacons_into_match_width = false,
+				-- -- Display characters in a custom way in the highlighted matches.
+				-- substitute_chars = { ['\r'] = '¬', },
+				-- -- Leaving the appropriate list empty effectively disables "smart" mode,
+				-- -- and forces auto-jump to be on or off.
+				safe_labels = {},
+				-- labels = { . . . },
+				-- These keys are captured directly by the plugin at runtime.
+				jump_to_unique_chars = false,
+				special_keys = {
+					next_match_group = "<space>",
+					prev_match_group = "<tab>",
+				},
+				repeat_ft_with_target_char = true,
+			})
+		end,
+		event = "BufRead",
+	},
 
 	{
 		"kevinhwang91/nvim-bqf",
@@ -602,6 +652,17 @@ lvim.plugins = {
 			})
 		end,
 	},
+	{
+		"folke/persistence.nvim",
+		event = "BufReadPre", -- this will only start session saving when an actual file was opened
+		module = "persistence",
+		config = function()
+			require("persistence").setup({
+				dir = vim.fn.expand(vim.fn.stdpath("config") .. "/session/"),
+				options = { "buffers", "curdir", "tabpages", "winsize" },
+			})
+		end,
+	},
 	-- {
 	-- 	"ahmedkhalf/lsp-rooter.nvim",
 	-- 	event = "BufRead",
@@ -619,6 +680,7 @@ lvim.plugins = {
 	},
 	{
 		"simrat39/symbols-outline.nvim",
+		tag = "*",
 		disable = false,
 		cmd = "SymbolsOutline",
 	},
@@ -631,6 +693,7 @@ lvim.plugins = {
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		disable = false,
+		tag = "*",
 		event = "BufRead",
 		config = function()
 			vim.g.indentLine_enabled = 1
@@ -836,7 +899,7 @@ lvim.plugins = {
 		"mzlogin/vim-markdown-toc",
 		disable = false,
 	},
-	{ "nvim-telescope/telescope-live-grep-raw.nvim", disable = false },
+	{ "nvim-telescope/telescope-live-grep-args.nvim", disable = false },
 	{ "kazhala/close-buffers.nvim", disable = false },
 	{
 		"chipsenkbeil/distant.nvim",
@@ -888,15 +951,16 @@ lvim.plugins = {
 	{
 		"phaazon/hop.nvim",
 		event = "BufRead",
+		tag = "*",
 		config = function()
 			require("hop").setup()
-			vim.api.nvim_set_keymap("n", "s", ":HopChar1<cr>", { silent = true })
-			vim.api.nvim_set_keymap("n", "S", ":HopWord<cr>", { silent = true })
+			vim.api.nvim_set_keymap("n", "e", ":HopChar1<cr>", { silent = true })
+			vim.api.nvim_set_keymap("n", "E", ":HopWord<cr>", { silent = true })
+			vim.api.nvim_set_keymap("v", "e", ":HopChar1<cr>", { silent = true })
+			vim.api.nvim_set_keymap("v", "E", ":HopWord<cr>", { silent = true })
 		end,
 	},
-	-- {
-	-- "wellle/context.vim",
-	--   },
+	{ "kg8m/vim-simple-align" },
 	{
 		"romgrk/nvim-treesitter-context",
 		config = function()
@@ -922,6 +986,47 @@ lvim.plugins = {
 				},
 			})
 		end,
+	},
+	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				textobjects = {
+					-- swap = {
+					-- 	enable = true,
+					-- 	swap_next = {
+					-- 		["<leader>a"] = "@parameter.inner",
+					-- 	},
+					-- 	swap_previous = {
+					-- 		["<leader>A"] = "@parameter.inner",
+					-- 	},
+					-- },
+					move = {
+						enable = true,
+						set_jumps = true, -- whether to set jumps in the jumplist
+						goto_next_start = {
+							["<leader>aj"] = "@function.outer",
+							["]]"] = "@class.outer",
+						},
+						goto_next_end = {
+							["]M"] = "@function.outer",
+							["]["] = "@class.outer",
+						},
+						goto_previous_start = {
+							["<leader>ak"] = "@function.outer",
+							["[["] = "@class.outer",
+						},
+						goto_previous_end = {
+							["[M"] = "@function.outer",
+							["[]"] = "@class.outer",
+						},
+					},
+				},
+			})
+		end,
+	},
+	{
+		"tpope/vim-repeat", -- permet de répeter la dernière commande avec .
 	},
 }
 
@@ -1058,8 +1163,6 @@ silent! command! CloseAll call CloseWindo()
 ]],
 	true
 )
-
--- vim.api.nvim_command "set undofile"
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
@@ -1294,7 +1397,6 @@ dap.configurations.rust = dap.configurations.cpp
 -- -- get_langage_id="auto"
 
 -- }
-
 
 -- local Terminal  = require('toggleterm.terminal').Terminal
 -- local compile_ninja_intel= Terminal:new({ cmd = "frintel && Cmake -S . -B build -G Ninja ", hidden = false})
